@@ -176,7 +176,7 @@ export default function WaitlistPage() {
                 Review Places & Accounts
               </h3>
               <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                Share your honest reviews about places you've visited, social media accounts you follow, and Kritly accounts. Help others discover the best experiences and connect with like-minded reviewers.
+                Share your honest reviews about places you&apos;ve visited, social media accounts you follow, and Kritly accounts. Help others discover the best experiences and connect with like-minded reviewers.
               </p>
               <ul className="space-y-3">
                 <li className="flex items-start">
