@@ -52,11 +52,7 @@ export default function WaitlistPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <div className="flex items-center space-x-3">
-              <div className="relative w-10 h-10">
-                <div className="w-full h-full bg-[#762FE0] rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">K</span>
-                </div>
-                {/* Uncomment when logo is added:
+              <div className="relative w-10 h-10 bg-transparent">
                 <Image
                   src="/images/logo.png"
                   alt="Kritly Logo"
@@ -64,7 +60,6 @@ export default function WaitlistPage() {
                   className="object-contain"
                   priority
                 />
-                */}
               </div>
               <span className="text-2xl font-bold text-[#762FE0]">Kritly</span>
             </div>
@@ -117,22 +112,23 @@ export default function WaitlistPage() {
               </div>
             </div>
             <div className="relative">
-              <div className="relative w-full aspect-[9/16] max-w-sm mx-auto">
+              <div className="relative w-full max-w-sm mx-auto">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#762FE0]/20 to-[#FFC30D]/20 rounded-3xl blur-3xl transform rotate-6"></div>
-                <div className="relative bg-white rounded-3xl shadow-2xl border-2 border-[#762FE0]/10 p-2">
-                  {/* Replace with your hero screenshot */}
-                  <div className="w-full h-full bg-gradient-to-br from-[#762FE0]/10 to-[#FFC30D]/10 rounded-2xl flex items-center justify-center border border-[#762FE0]/20">
-                    <p className="text-[#762FE0] text-sm text-center px-4 font-medium">Add hero-app.png<br />to screenshots folder</p>
+                {/* Phone Frame */}
+                <div className="relative bg-black rounded-[3rem] p-2 shadow-2xl">
+                  {/* Notch */}
+                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-10"></div>
+                  {/* Screen */}
+                  <div className="relative bg-black rounded-[2.5rem] overflow-hidden aspect-[428/926] w-full">
+                    <Image
+                      src="/images/screenshots/hero-app.png"
+                      alt="Kritly App Preview"
+                      fill
+                      className="object-contain w-full h-full"
+                      sizes="(max-width: 640px) 100vw, 375px"
+                      priority
+                    />
                   </div>
-                  {/* Uncomment when screenshot is added:
-                  <Image
-                    src="/images/screenshots/hero-app.png"
-                    alt="Kritly App Preview"
-                    fill
-                    className="object-cover rounded-2xl"
-                    priority
-                  />
-                  */}
                 </div>
               </div>
             </div>
@@ -155,16 +151,22 @@ export default function WaitlistPage() {
           {/* Feature 1: Reviews */}
           <div className="mb-32 grid lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
-              <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                <p className="text-gray-500 text-sm text-center px-4">Add reviews-feature.png<br />to screenshots folder</p>
-                {/* Uncomment when screenshot is added:
-                <Image
-                  src="/images/screenshots/reviews-feature.png"
-                  alt="Reviews Feature"
-                  fill
-                  className="object-cover"
-                />
-                */}
+              <div className="relative w-full max-w-sm mx-auto">
+                {/* Phone Frame */}
+                <div className="relative bg-black rounded-[3rem] p-2 shadow-2xl">
+                  {/* Notch */}
+                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-10"></div>
+                  {/* Screen */}
+                  <div className="relative bg-black rounded-[2.5rem] overflow-hidden aspect-[428/926] w-full">
+                    <Image
+                      src="/images/screenshots/reviews-feature.png"
+                      alt="Reviews Feature"
+                      fill
+                      className="object-contain w-full h-full"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
             <div className="order-1 lg:order-2">
@@ -224,16 +226,22 @@ export default function WaitlistPage() {
               </ul>
             </div>
             <div>
-              <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                <p className="text-gray-500 text-sm text-center px-4">Add social-feature.png<br />to screenshots folder</p>
-                {/* Uncomment when screenshot is added:
-                <Image
-                  src="/images/screenshots/social-feature.png"
-                  alt="Social Media Feature"
-                  fill
-                  className="object-cover"
-                />
-                */}
+              <div className="relative w-full max-w-sm mx-auto">
+                {/* Phone Frame */}
+                <div className="relative bg-black rounded-[3rem] p-2 shadow-2xl">
+                  {/* Notch */}
+                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-10"></div>
+                  {/* Screen */}
+                  <div className="relative bg-black rounded-[2.5rem] overflow-hidden aspect-[428/926] w-full">
+                    <Image
+                      src="/images/screenshots/social-feature.png"
+                      alt="Social Media Feature"
+                      fill
+                      className="object-contain w-full h-full"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -241,16 +249,22 @@ export default function WaitlistPage() {
           {/* Feature 3: Polls */}
           <div className="mb-32 grid lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
-              <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                <p className="text-gray-500 text-sm text-center px-4">Add polls-feature.png<br />to screenshots folder</p>
-                {/* Uncomment when screenshot is added:
-                <Image
-                  src="/images/screenshots/polls-feature.png"
-                  alt="Polls Feature"
-                  fill
-                  className="object-cover"
-                />
-                */}
+              <div className="relative w-full max-w-sm mx-auto">
+                {/* Phone Frame */}
+                <div className="relative bg-black rounded-[3rem] p-2 shadow-2xl">
+                  {/* Notch */}
+                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-10"></div>
+                  {/* Screen */}
+                  <div className="relative bg-black rounded-[2.5rem] overflow-hidden aspect-[428/926] w-full">
+                    <Image
+                      src="/images/screenshots/polls-feature.png"
+                      alt="Polls Feature"
+                      fill
+                      className="object-contain w-full h-full"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
             <div className="order-1 lg:order-2">
@@ -310,16 +324,22 @@ export default function WaitlistPage() {
               </ul>
             </div>
             <div>
-              <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                <p className="text-gray-500 text-sm text-center px-4">Add story-times-feature.png<br />to screenshots folder</p>
-                {/* Uncomment when screenshot is added:
-                <Image
-                  src="/images/screenshots/story-times-feature.png"
-                  alt="Story Times Feature"
-                  fill
-                  className="object-cover"
-                />
-                */}
+              <div className="relative w-full max-w-sm mx-auto">
+                {/* Phone Frame */}
+                <div className="relative bg-black rounded-[3rem] p-2 shadow-2xl">
+                  {/* Notch */}
+                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-10"></div>
+                  {/* Screen */}
+                  <div className="relative bg-black rounded-[2.5rem] overflow-hidden aspect-[428/926] w-full">
+                    <Image
+                      src="/images/screenshots/story-times-feature.png"
+                      alt="Story Times Feature"
+                      fill
+                      className="object-contain w-full h-full"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -438,9 +458,9 @@ export default function WaitlistPage() {
               href="https://www.linkedin.com/company/kritly"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105 border-2 border-transparent hover:border-[#762FE0]"
+              className="group flex flex-col items-center transition-all transform hover:scale-110"
             >
-              <div className="w-16 h-16 bg-[#0077B5] rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <div className="w-16 h-16 bg-[#0077B5] rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
                 <Linkedin className="w-8 h-8 text-white" />
               </div>
               <span className="text-gray-900 font-semibold mb-1">LinkedIn</span>
@@ -452,9 +472,9 @@ export default function WaitlistPage() {
               href="https://twitter.com/kritly"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105 border-2 border-transparent hover:border-[#762FE0]"
+              className="group flex flex-col items-center transition-all transform hover:scale-110"
             >
-              <div className="w-16 h-16 bg-[#1DA1F2] rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <div className="w-16 h-16 bg-[#1DA1F2] rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
                 <Twitter className="w-8 h-8 text-white" />
               </div>
               <span className="text-gray-900 font-semibold mb-1">Twitter</span>
@@ -466,9 +486,9 @@ export default function WaitlistPage() {
               href="https://www.tiktok.com/@kritly"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105 border-2 border-transparent hover:border-[#762FE0]"
+              className="group flex flex-col items-center transition-all transform hover:scale-110"
             >
-              <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
                 <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                   <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
                 </svg>
@@ -480,9 +500,9 @@ export default function WaitlistPage() {
             {/* Email */}
             <a
               href="mailto:support@kritly.com"
-              className="group flex flex-col items-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all transform hover:scale-105 border-2 border-transparent hover:border-[#762FE0]"
+              className="group flex flex-col items-center transition-all transform hover:scale-110"
             >
-              <div className="w-16 h-16 bg-[#762FE0] rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+              <div className="w-16 h-16 bg-[#762FE0] rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
                 <Mail className="w-8 h-8 text-white" />
               </div>
               <span className="text-gray-900 font-semibold mb-1">Email</span>
@@ -497,18 +517,13 @@ export default function WaitlistPage() {
         <div className="container mx-auto max-w-7xl">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center space-x-3 mb-4 md:mb-0">
-              <div className="relative w-10 h-10">
-                <div className="w-full h-full bg-[#762FE0] rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">K</span>
-                </div>
-                {/* Uncomment when logo is added:
+              <div className="relative w-10 h-10 bg-transparent">
                 <Image
                   src="/images/logo.png"
                   alt="Kritly Logo"
                   fill
                   className="object-contain"
                 />
-                */}
               </div>
               <span className="text-2xl font-bold">Kritly</span>
             </div>
