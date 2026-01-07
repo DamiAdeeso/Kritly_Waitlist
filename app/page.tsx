@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { Star, Smartphone, BarChart3, Video, Check, Linkedin, Mail, Twitter } from 'lucide-react'
+import { Star, Smartphone, BarChart3, Video, Check, Linkedin, Mail, Instagram } from 'lucide-react'
 
 export default function WaitlistPage() {
   const [email, setEmail] = useState('')
@@ -61,11 +61,11 @@ export default function WaitlistPage() {
                   priority
                 />
               </div>
-              <span className="text-2xl font-bold text-[#762FE0]">Kritly</span>
+              <span className="text-2xl font-bold text-[#40008C]">Kritly</span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-gray-700 hover:text-[#762FE0] transition-colors">Features</a>
-              <a href="#waitlist" className="text-gray-700 hover:text-[#762FE0] transition-colors">Join Waitlist</a>
+              <a href="#features" className="text-gray-700 hover:text-[#40008C] transition-colors">Features</a>
+              <a href="#waitlist" className="text-gray-700 hover:text-[#40008C] transition-colors">Join Waitlist</a>
             </div>
           </div>
         </div>
@@ -82,38 +82,38 @@ export default function WaitlistPage() {
             backgroundSize: '50px 50px'
           }}></div>
           {/* Animated Gradient Orbs */}
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#762FE0] rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div>
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#40008C] rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div>
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#FFC30D] rounded-full mix-blend-multiply filter blur-3xl opacity-8 animate-pulse" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#762FE0]/20 rounded-full mix-blend-multiply filter blur-3xl opacity-8 animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#40008C]/20 rounded-full mix-blend-multiply filter blur-3xl opacity-8 animate-pulse" style={{ animationDelay: '2s' }}></div>
         </div>
         <div className="container mx-auto max-w-7xl relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="text-gray-900">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+            <div className="text-gray-900 animate-fade-in-up">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight animate-fade-in-up animation-delay-100">
                 Review. Connect.{' '}
-                <span className="text-[#762FE0]">Share <span className="text-[#FFC30D]">Stories</span>.</span>
+                <span className="text-[#40008C]">Share <span className="text-[#FFC30D]">Stories</span>.</span>
               </h1>
-              <p className="text-xl sm:text-2xl text-gray-700 mb-8 leading-relaxed">
+              <p className="text-xl sm:text-2xl text-gray-700 mb-8 leading-relaxed animate-fade-in-up animation-delay-200">
                 Kritly is a social media review platform where you can review places, social media accounts, and Kritly accounts. Take polls and share special short video experiences called Story Times.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up animation-delay-300">
                 <a
                   href="#waitlist"
-                  className="inline-flex items-center justify-center px-8 py-4 bg-[#762FE0] text-white font-bold text-lg rounded-xl hover:bg-[#8B4AE8] transition-all transform hover:scale-105 shadow-xl"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-[#40008C] text-white font-bold text-lg rounded-xl hover:bg-[#5A00C7] transition-all transform hover:scale-105 shadow-xl"
                 >
                   Join the Waitlist
                 </a>
                 <a
                   href="#features"
-                  className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#762FE0] font-semibold text-lg rounded-xl border-2 border-[#762FE0] hover:bg-[#762FE0]/5 hover:border-[#FFC30D] transition-all"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#40008C] font-semibold text-lg rounded-xl border-2 border-[#40008C] hover:bg-[#40008C]/5 hover:border-[#FFC30D] transition-all"
                 >
                   Explore Features
                 </a>
               </div>
             </div>
-            <div className="relative">
+            <div className="relative animate-scale-in animation-delay-400">
               <div className="relative w-full max-w-sm mx-auto">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#762FE0]/20 to-[#FFC30D]/20 rounded-3xl blur-3xl transform rotate-6"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-[#40008C]/20 to-[#FFC30D]/20 rounded-3xl blur-3xl transform rotate-6"></div>
                 {/* Phone Frame */}
                 <div className="relative bg-black rounded-[3rem] p-2 shadow-2xl">
                   {/* Notch */}
@@ -150,7 +150,7 @@ export default function WaitlistPage() {
 
           {/* Feature 1: Reviews */}
           <div className="mb-32 grid lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1">
+            <div className="order-2 lg:order-1 animate-slide-in-left">
               <div className="relative w-full max-w-sm mx-auto">
                 {/* Phone Frame */}
                 <div className="relative bg-black rounded-[3rem] p-2 shadow-2xl">
@@ -169,15 +169,15 @@ export default function WaitlistPage() {
                 </div>
               </div>
             </div>
-            <div className="order-1 lg:order-2">
-              <div className="inline-flex items-center px-4 py-2 bg-[#762FE0]/10 rounded-full mb-4">
-                <Star className="w-5 h-5 mr-2 text-[#762FE0]" fill="#FFC30D" />
-                <span className="text-[#762FE0] font-semibold">Reviews</span>
+            <div className="order-1 lg:order-2 animate-slide-in-right">
+              <div className="inline-flex items-center px-4 py-2 bg-[#40008C]/10 rounded-full mb-4 animate-fade-in animation-delay-100">
+                <Star className="w-5 h-5 mr-2 text-[#40008C]" fill="#FFC30D" />
+                <span className="text-[#40008C] font-semibold">Reviews</span>
               </div>
-              <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 animate-fade-in-up animation-delay-200">
                 Review Places & Accounts
               </h3>
-              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+              <p className="text-lg text-gray-600 mb-6 leading-relaxed animate-fade-in-up animation-delay-300">
                 Share your honest reviews about places you&apos;ve visited, social media accounts you follow, and Kritly accounts. Help others discover the best experiences and connect with like-minded reviewers.
               </p>
               <ul className="space-y-3">
@@ -200,9 +200,9 @@ export default function WaitlistPage() {
           {/* Feature 2: Social Media Integration */}
           <div className="mb-32 grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="inline-flex items-center px-4 py-2 bg-[#762FE0]/10 rounded-full mb-4">
-                <Smartphone className="w-5 h-5 mr-2 text-[#762FE0]" />
-                <span className="text-[#762FE0] font-semibold">Social Media</span>
+              <div className="inline-flex items-center px-4 py-2 bg-[#40008C]/10 rounded-full mb-4">
+                <Smartphone className="w-5 h-5 mr-2 text-[#40008C]" />
+                <span className="text-[#40008C] font-semibold">Social Media</span>
               </div>
               <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
                 Connect Your Social World
@@ -225,7 +225,7 @@ export default function WaitlistPage() {
                 </li>
               </ul>
             </div>
-            <div>
+            <div className="animate-slide-in-right">
               <div className="relative w-full max-w-sm mx-auto">
                 {/* Phone Frame */}
                 <div className="relative bg-black rounded-[3rem] p-2 shadow-2xl">
@@ -248,7 +248,7 @@ export default function WaitlistPage() {
 
           {/* Feature 3: Polls */}
           <div className="mb-32 grid lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1">
+            <div className="order-2 lg:order-1 animate-slide-in-left">
               <div className="relative w-full max-w-sm mx-auto">
                 {/* Phone Frame */}
                 <div className="relative bg-black rounded-[3rem] p-2 shadow-2xl">
@@ -267,15 +267,15 @@ export default function WaitlistPage() {
                 </div>
               </div>
             </div>
-            <div className="order-1 lg:order-2">
-              <div className="inline-flex items-center px-4 py-2 bg-[#762FE0]/10 rounded-full mb-4">
-                <BarChart3 className="w-5 h-5 mr-2 text-[#762FE0]" />
-                <span className="text-[#762FE0] font-semibold">Polls</span>
+            <div className="order-1 lg:order-2 animate-slide-in-right">
+              <div className="inline-flex items-center px-4 py-2 bg-[#40008C]/10 rounded-full mb-4 animate-fade-in animation-delay-100">
+                <BarChart3 className="w-5 h-5 mr-2 text-[#40008C]" />
+                <span className="text-[#40008C] font-semibold">Polls</span>
               </div>
-              <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 animate-fade-in-up animation-delay-200">
                 Engage with Interactive Polls
               </h3>
-              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+              <p className="text-lg text-gray-600 mb-6 leading-relaxed animate-fade-in-up animation-delay-300">
                 Create and participate in polls to gather opinions, make decisions, and engage with the community. Get instant feedback on everything from places to visit to content preferences.
               </p>
               <ul className="space-y-3">
@@ -297,15 +297,15 @@ export default function WaitlistPage() {
 
           {/* Feature 4: Story Times */}
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-flex items-center px-4 py-2 bg-[#762FE0]/10 rounded-full mb-4">
-                <Video className="w-5 h-5 mr-2 text-[#762FE0]" />
-                <span className="text-[#762FE0] font-semibold">Story Times</span>
+            <div className="animate-slide-in-left">
+              <div className="inline-flex items-center px-4 py-2 bg-[#40008C]/10 rounded-full mb-4 animate-fade-in animation-delay-100">
+                <Video className="w-5 h-5 mr-2 text-[#40008C]" />
+                <span className="text-[#40008C] font-semibold">Story Times</span>
               </div>
-              <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 animate-fade-in-up animation-delay-200">
                 Share Your Story Times
               </h3>
-              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+              <p className="text-lg text-gray-600 mb-6 leading-relaxed animate-fade-in-up animation-delay-300">
                 Create and share special short video experiences called Story Times. Capture moments, share experiences, and let your stories come to life in engaging short-form videos.
               </p>
               <ul className="space-y-3">
@@ -323,7 +323,7 @@ export default function WaitlistPage() {
                 </li>
               </ul>
             </div>
-            <div>
+            <div className="animate-slide-in-right">
               <div className="relative w-full max-w-sm mx-auto">
                 {/* Phone Frame */}
                 <div className="relative bg-black rounded-[3rem] p-2 shadow-2xl">
@@ -357,20 +357,20 @@ export default function WaitlistPage() {
             backgroundSize: '50px 50px'
           }}></div>
           {/* Subtle Gradient Orbs */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-[#762FE0] rounded-full mix-blend-multiply filter blur-3xl opacity-8"></div>
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#40008C] rounded-full mix-blend-multiply filter blur-3xl opacity-8"></div>
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#FFC30D] rounded-full mix-blend-multiply filter blur-3xl opacity-6"></div>
         </div>
         <div className="container mx-auto max-w-4xl relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-12 animate-fade-in-up">
+            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4 animate-fade-in-up animation-delay-100">
               Be Among the First
             </h2>
-            <p className="text-xl text-gray-700 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-700 max-w-2xl mx-auto animate-fade-in-up animation-delay-200">
               Join thousands of early adopters and get exclusive access when Kritly launches
             </p>
           </div>
 
-          <div className="bg-white rounded-3xl shadow-2xl border-2 border-[#762FE0]/10 p-8 sm:p-12 max-w-2xl mx-auto">
+          <div className="bg-white rounded-3xl shadow-2xl border-2 border-[#40008C]/10 p-8 sm:p-12 max-w-2xl mx-auto animate-scale-in animation-delay-300">
             {status === 'success' && (
               <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl">
                 <p className="text-green-800 text-center font-medium">{message}</p>
@@ -394,7 +394,7 @@ export default function WaitlistPage() {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
-                  className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#762FE0] focus:border-[#762FE0] transition-all text-lg"
+                  className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#40008C] focus:border-[#40008C] transition-all text-lg"
                   placeholder="Enter your full name"
                 />
               </div>
@@ -409,7 +409,7 @@ export default function WaitlistPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#762FE0] focus:border-[#762FE0] transition-all text-lg"
+                  className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#40008C] focus:border-[#40008C] transition-all text-lg"
                   placeholder="Enter your email address"
                 />
               </div>
@@ -417,7 +417,7 @@ export default function WaitlistPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-4 px-6 bg-[#762FE0] text-white font-bold text-xl rounded-xl hover:bg-[#8B4AE8] focus:outline-none focus:ring-2 focus:ring-[#762FE0] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-105 active:scale-95 shadow-lg"
+                className="w-full py-4 px-6 bg-[#40008C] text-white font-bold text-xl rounded-xl hover:bg-[#5A00C7] focus:outline-none focus:ring-2 focus:ring-[#40008C] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-105 active:scale-95 shadow-lg"
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center">
@@ -458,7 +458,7 @@ export default function WaitlistPage() {
               href="https://www.linkedin.com/company/kritly"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center transition-all transform hover:scale-110"
+              className="group flex flex-col items-center transition-all transform hover:scale-110 animate-fade-in-up animation-delay-100"
             >
               <div className="w-16 h-16 bg-[#0077B5] rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
                 <Linkedin className="w-8 h-8 text-white" />
@@ -467,17 +467,33 @@ export default function WaitlistPage() {
               <span className="text-sm text-gray-600">@kritly</span>
             </a>
 
-            {/* Twitter */}
+            {/* X (Twitter) */}
             <a
               href="https://twitter.com/kritly"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center transition-all transform hover:scale-110"
+              className="group flex flex-col items-center transition-all transform hover:scale-110 animate-fade-in-up animation-delay-200"
             >
-              <div className="w-16 h-16 bg-[#1DA1F2] rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                <Twitter className="w-8 h-8 text-white" />
+              <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
               </div>
-              <span className="text-gray-900 font-semibold mb-1">Twitter</span>
+              <span className="text-gray-900 font-semibold mb-1">X</span>
+              <span className="text-sm text-gray-600">@kritly</span>
+            </a>
+
+            {/* Instagram */}
+            <a
+              href="https://www.instagram.com/kritly"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col items-center transition-all transform hover:scale-110 animate-fade-in-up animation-delay-300"
+            >
+              <div className="w-16 h-16 bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#FCAF45] rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                <Instagram className="w-8 h-8 text-white" />
+              </div>
+              <span className="text-gray-900 font-semibold mb-1">Instagram</span>
               <span className="text-sm text-gray-600">@kritly</span>
             </a>
 
@@ -486,7 +502,7 @@ export default function WaitlistPage() {
               href="https://www.tiktok.com/@kritly"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center transition-all transform hover:scale-110"
+              className="group flex flex-col items-center transition-all transform hover:scale-110 animate-fade-in-up animation-delay-400"
             >
               <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
                 <svg className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -500,9 +516,9 @@ export default function WaitlistPage() {
             {/* Email */}
             <a
               href="mailto:support@kritly.com"
-              className="group flex flex-col items-center transition-all transform hover:scale-110"
+              className="group flex flex-col items-center transition-all transform hover:scale-110 animate-fade-in-up animation-delay-500"
             >
-              <div className="w-16 h-16 bg-[#762FE0] rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+              <div className="w-16 h-16 bg-[#40008C] rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
                 <Mail className="w-8 h-8 text-white" />
               </div>
               <span className="text-gray-900 font-semibold mb-1">Email</span>
