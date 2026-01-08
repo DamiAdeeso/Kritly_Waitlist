@@ -43,7 +43,7 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
-}) {
+}) {//this
   return (
     <html lang="en">
       <head>
