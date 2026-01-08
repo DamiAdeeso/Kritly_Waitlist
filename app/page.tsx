@@ -22,13 +22,14 @@ function useScrollAnimation(options?: { threshold?: number; rootMargin?: string 
       }
     )
 
-    if (ref.current) {
-      observer.observe(ref.current)
+    const currentRef = ref.current
+    if (currentRef) {
+      observer.observe(currentRef)
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current)
+      if (currentRef) {
+        observer.unobserve(currentRef)
       }
     }
   }, [options?.threshold, options?.rootMargin])
@@ -617,7 +618,7 @@ export default function WaitlistPage() {
             {/* Success Message */}
             <div className="text-center">
               <h3 className="text-3xl font-bold text-gray-900 mb-4">
-                You're In! 🎉
+                You&apos;re In! 🎉
               </h3>
               <p className="text-lg text-gray-700 mb-6">
                 {message}
