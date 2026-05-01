@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
-import { Star, Smartphone, BarChart3, Video, Check, Linkedin, Mail, X } from 'lucide-react'
+import { Star, Smartphone, BarChart3, Video, Check, Linkedin, Mail, X, Users } from 'lucide-react'
 
 // Custom hook for scroll-triggered animations
 function useScrollAnimation(options?: { threshold?: number; rootMargin?: string }) {
@@ -141,6 +141,23 @@ export default function WaitlistPage() {
     }
   }
 
+  const founders = [
+    {
+      name: 'Ridwan Meshinoye',
+      role: 'Co-founder',
+      bio: 'Ridwan Meshinoye has a master\'s degree in mechanical engineering and loves playing football in his leisure time when he is not busy learning how to solve a newly identified problem.',
+      imageSrc: '/images/team/ridwan.jpeg',
+      linkedin: 'https://www.linkedin.com/in/ridwanmeshinoye',
+    },
+    {
+      name: 'Oluwafikunmi Eshilokun',
+      role: 'Co-founder',
+      bio: 'Oluwafikunmi Eshilokun holds an MSc in AI & Data Science. He designs data pipelines and in his free time, plays video games — same systems thinking, different arena.',
+      imageSrc: '/images/team/fikunmi.jpeg',
+      linkedin: 'https://www.linkedin.com/in/oluwafikunmi-eshilokun',
+    },
+  ] as const
+
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
@@ -161,6 +178,7 @@ export default function WaitlistPage() {
             </div>
             <div className="hidden md:flex items-center space-x-8 animate-fade-in-up animation-delay-200">
               <a href="#features" className="text-gray-700 hover:text-[#40008C] transition-colors">Features</a>
+              <a href="#team" className="text-gray-700 hover:text-[#40008C] transition-colors">Team</a>
               <a href="#waitlist" className="text-gray-700 hover:text-[#40008C] transition-colors">Join Waitlist</a>
             </div>
           </div>
@@ -522,6 +540,60 @@ export default function WaitlistPage() {
               By joining, you agree to receive updates about Kritly. We respect your privacy.
             </p>
           </ScrollAnimate>
+        </div>
+      </section>
+
+      {/* Team / Founders */}
+      <section id="team" className="py-24 px-4 sm:px-6 lg:px-8 bg-white border-t border-gray-100">
+        <div className="container mx-auto max-w-6xl">
+          <ScrollAnimate animation="fade-in-up" className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 bg-[#40008C]/10 rounded-full mb-4">
+              <Users className="w-5 h-5 mr-2 text-[#40008C]" />
+              <span className="text-[#40008C] font-semibold">Founding team</span>
+            </div>
+            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+              Meet the founders
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              The people building Kritly.
+            </p>
+          </ScrollAnimate>
+
+          <div className="flex flex-col gap-8 lg:gap-10 max-w-4xl mx-auto">
+            {founders.map((founder, index) => (
+              <ScrollAnimate
+                key={index}
+                animation="fade-in-up"
+                delay={index === 0 ? 100 : 200}
+              >
+                <article className="flex flex-row gap-6 sm:gap-8 items-start bg-gray-50 rounded-3xl border-2 border-[#40008C]/10 p-6 sm:p-8 shadow-lg hover:shadow-xl hover:border-[#40008C]/20 transition-all">
+                  <div className="relative shrink-0 w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden ring-4 ring-white shadow-md bg-gray-200">
+                    <Image
+                      src={founder.imageSrc}
+                      alt={founder.name}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 640px) 96px, 128px"
+                    />
+                  </div>
+                  <div className="min-w-0 flex-1 flex flex-col">
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900">{founder.name}</h3>
+                    <p className="text-[#40008C] font-semibold mt-0.5 mb-3">{founder.role}</p>
+                    <p className="text-gray-600 text-sm sm:text-base leading-relaxed">{founder.bio}</p>
+                    <a
+                      href={founder.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${founder.name} on LinkedIn`}
+                      className="mt-4 self-start inline-flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-[#0077B5] text-[#0077B5] hover:bg-[#0077B5] hover:text-white transition-colors"
+                    >
+                      <Linkedin className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" aria-hidden />
+                    </a>
+                  </div>
+                </article>
+              </ScrollAnimate>
+            ))}
+          </div>
         </div>
       </section>
 
