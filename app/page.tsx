@@ -1,757 +1,397 @@
-'use client'
-
-import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
-import { Star, Smartphone, BarChart3, Video, Check, Linkedin, Mail, X, Users } from 'lucide-react'
+import {
+  Bot,
+  Inbox,
+  ShoppingBag,
+  UserRound,
+  PackageSearch,
+  RefreshCw,
+  BookOpen,
+  Code2,
+  BarChart3,
+  ShieldCheck,
+  Plug,
+  GraduationCap,
+  MessageSquareText,
+  Linkedin,
+} from 'lucide-react'
+import { SiteNav } from '@/components/SiteNav'
+import { SiteFooter } from '@/components/SiteFooter'
+import { WaitlistForm } from '@/components/WaitlistForm'
+import { Reveal } from '@/components/Reveal'
+import { CHANNELS } from '@/lib/site'
 
-// Custom hook for scroll-triggered animations
-function useScrollAnimation(options?: { threshold?: number; rootMargin?: string }) {
-  const [isVisible, setIsVisible] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
+/* ── Hero chat mock (demo content, not real customer data) ─────────────── */
+type Msg =
+  | { from: 'customer' | 'agent'; text: string }
+  | { from: 'card'; title: string; meta: string; price: string }
+  | { from: 'pay'; text: string }
+  | { from: 'event'; text: string }
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      {
-        threshold: options?.threshold || 0.1,
-        rootMargin: options?.rootMargin || '0px 0px -50px 0px',
-      }
-    )
+const CHAT: Msg[] = [
+  { from: 'customer', text: 'Hi! Do you have the linen two-piece in size M?' },
+  { from: 'agent', text: 'Yes, it’s in stock in M. Want me to add it to your cart?' },
+  { from: 'card', title: 'Linen Two-Piece Set', meta: 'Size M · Sand', price: '₦28,500' },
+  { from: 'customer', text: 'Yes please. Delivery to Lekki' },
+  { from: 'pay', text: 'Pay ₦31,000 securely' },
+  { from: 'event', text: 'Payment received · Order confirmed' },
+  { from: 'customer', text: 'Can I talk to someone about a custom size?' },
+  { from: 'event', text: 'Handed to your team with full history' },
+]
 
-    const currentRef = ref.current
-    if (currentRef) {
-      observer.observe(currentRef)
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef)
-      }
-    }
-  }, [options?.threshold, options?.rootMargin])
-
-  return [ref, isVisible] as const
-}
-
-// Scroll animation wrapper component
-function ScrollAnimate({ 
-  children, 
-  className = '', 
-  animation = 'fade-in-up',
-  delay = 0 
-}: { 
-  children: React.ReactNode
-  className?: string
-  animation?: 'fade-in-up' | 'slide-in-left' | 'slide-in-right' | 'scale-in'
-  delay?: number
-}) {
-  const [ref, isVisible] = useScrollAnimation()
-  
-  const animationClass = {
-    'fade-in-up': 'scroll-fade-in-up',
-    'slide-in-left': 'scroll-slide-in-left',
-    'slide-in-right': 'scroll-slide-in-right',
-    'scale-in': 'scroll-scale-in',
-  }[animation]
-
-  // Convert delay in ms to delay class (e.g., 100 -> 'animation-delay-100')
-  const delayClass = delay > 0 ? `animation-delay-${Math.min(Math.round(delay / 100) * 100, 1000)}` : ''
-
+function ChatMock() {
   return (
-    <div 
-      ref={ref} 
-      className={`scroll-animate ${animationClass} ${delayClass} ${isVisible ? 'visible' : ''} ${className}`}
-    >
-      {children}
+    <div className="relative mx-auto w-full max-w-[360px] animate-float">
+      <div className="absolute -inset-8 rounded-[3rem] bg-brand-500/30 blur-3xl animate-glow" aria-hidden />
+      <div className="relative overflow-hidden rounded-[2.2rem] border border-white/10 bg-ink-800 shadow-2xl">
+        <div className="flex items-center gap-3 border-b border-white/10 bg-ink-700/80 px-4 py-3">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-gradient font-display text-sm font-bold text-white">
+            A
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-sm font-semibold text-white">Adunni Studio</p>
+            <p className="text-[11px] text-wa">● replying instantly</p>
+          </div>
+          <span className="rounded-full bg-wa/15 px-2 py-0.5 text-[10px] font-semibold text-wa">WhatsApp</span>
+        </div>
+        <ol className="flex flex-col gap-2 px-3 py-4 text-[13px] leading-snug" aria-label="Example conversation">
+          {CHAT.map((m, i) => {
+            const style = { animationDelay: `${0.4 + i * 0.55}s` }
+            if (m.from === 'customer')
+              return (
+                <li key={i} style={style} className="max-w-[80%] self-start animate-msg-in rounded-2xl rounded-bl-md bg-white/10 px-3 py-2 text-white">
+                  {m.text}
+                </li>
+              )
+            if (m.from === 'agent')
+              return (
+                <li key={i} style={style} className="max-w-[80%] self-end animate-msg-in rounded-2xl rounded-br-md bg-brand-600 px-3 py-2 text-white">
+                  {m.text}
+                </li>
+              )
+            if (m.from === 'card')
+              return (
+                <li key={i} style={style} className="w-[78%] self-end animate-msg-in overflow-hidden rounded-2xl border border-white/10 bg-ink-700">
+                  <div className="h-16 bg-[linear-gradient(135deg,#e9d8b8,#c9a77a)]" aria-hidden />
+                  <div className="flex items-end justify-between gap-2 p-3">
+                    <div>
+                      <p className="font-semibold text-white">{m.title}</p>
+                      <p className="text-[11px] text-white/50">{m.meta}</p>
+                    </div>
+                    <p className="font-display font-semibold text-sun">{m.price}</p>
+                  </div>
+                </li>
+              )
+            if (m.from === 'pay')
+              return (
+                <li key={i} style={style} className="self-end animate-msg-in rounded-full bg-sun px-4 py-2 font-semibold text-ink">
+                  {m.text} →
+                </li>
+              )
+            return (
+              <li key={i} style={style} className="self-center animate-msg-in rounded-full border border-wa/30 bg-wa/10 px-3 py-1 text-[11px] font-medium text-wa">
+                {m.text}
+              </li>
+            )
+          })}
+        </ol>
+      </div>
     </div>
   )
 }
 
-export default function WaitlistPage() {
-  const [email, setEmail] = useState('')
-  const [name, setName] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
-  const [message, setMessage] = useState('')
-  const [showSuccessModal, setShowSuccessModal] = useState(false)
-  const [showErrorModal, setShowErrorModal] = useState(false)
+/* ── Content (each claim maps to something shipped on kritly main) ─────── */
+const steps = [
+  {
+    icon: Plug,
+    title: 'Connect your channels',
+    body: 'Link WhatsApp Business and Instagram with each platform’s official sign-in, and drop our chat widget on your website.',
+  },
+  {
+    icon: GraduationCap,
+    title: 'Teach Kritly your business',
+    body: 'Add products, prices, delivery options, business hours and policies, or sync your Shopify or WooCommerce catalogue. Set the voice it speaks in.',
+  },
+  {
+    icon: MessageSquareText,
+    title: 'Let Kritly reply',
+    body: 'Customers get instant, accurate answers. You see every conversation in one inbox and can step in at any time.',
+  },
+]
 
-  // Close modal on Escape key
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        if (showSuccessModal) setShowSuccessModal(false)
-        if (showErrorModal) setShowErrorModal(false)
-      }
-    }
-    document.addEventListener('keydown', handleEscape)
-    return () => document.removeEventListener('keydown', handleEscape)
-  }, [showSuccessModal, showErrorModal])
+const features = [
+  {
+    icon: Bot,
+    title: 'AI sales and support agent',
+    body: 'Answers questions, recommends products and resolves common issues in your brand’s voice, from what you’ve taught it.',
+    span: 'lg:col-span-2',
+  },
+  {
+    icon: ShoppingBag,
+    title: 'Shop inside the chat',
+    body: 'Customers browse, build a cart and pay with a secure link (Paystack, Flutterwave or Stripe) without leaving the conversation.',
+    span: '',
+  },
+  {
+    icon: Inbox,
+    title: 'One shared inbox',
+    body: 'WhatsApp, Instagram and web chat in one place. Assign, add notes and see when a teammate is already replying.',
+    span: '',
+  },
+  {
+    icon: UserRound,
+    title: 'Human handoff',
+    body: 'Set the rules and hours. Kritly passes the conversation to the right person on your team with the full history attached.',
+    span: '',
+  },
+  {
+    icon: PackageSearch,
+    title: '“Where’s my order?”',
+    body: 'Customers ask about an order and get its current status straight away, after Kritly checks it’s really theirs.',
+    span: '',
+  },
+  {
+    icon: RefreshCw,
+    title: 'Catalogue sync',
+    body: 'Bring products in from Shopify, WooCommerce or your own system, and keep stock and prices current.',
+    span: '',
+  },
+  {
+    icon: BookOpen,
+    title: 'Knowledge base',
+    body: 'Add articles and policies once. Kritly uses them in replies and suggests them to your team in the inbox.',
+    span: '',
+  },
+  {
+    icon: Code2,
+    title: 'Web chat for your site',
+    body: 'A themeable chat widget with React, Vue, Angular and script-tag installs.',
+    span: '',
+  },
+  {
+    icon: BarChart3,
+    title: 'See what it’s doing',
+    body: 'Track conversations, how they were answered and how chats turn into paid orders.',
+    span: 'lg:col-span-2',
+  },
+]
 
-  // Prevent body scroll when modal is open
-  useEffect(() => {
-    if (showSuccessModal || showErrorModal) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
-    return () => {
-      document.body.style.overflow = 'unset'
-    }
-  }, [showSuccessModal, showErrorModal])
+const faqs = [
+  {
+    q: 'Which channels does Kritly work on?',
+    a: 'WhatsApp, Instagram and web chat today. Facebook Messenger and TikTok are coming soon.',
+  },
+  {
+    q: 'Will the AI make things up?',
+    a: 'Kritly answers from the products, policies and knowledge you give it. You choose when it hands off, and you can take over any conversation at any time.',
+  },
+  {
+    q: 'How do customers pay?',
+    a: 'Kritly sends a secure checkout link from Paystack, Flutterwave or Stripe inside the chat, and confirms the order once payment lands.',
+  },
+  {
+    q: 'Is my data safe?',
+    a: 'Kritly connects only through official platform APIs. We never sell your data or your customers’ data.',
+  },
+  {
+    q: 'When can I start?',
+    a: 'We’re opening to merchants in batches. Join the waitlist and we’ll email you when your spot is ready.',
+  },
+]
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    setStatus('idle')
-    setMessage('')
+const founders = [
+  {
+    name: 'Ridwan Meshinoye',
+    role: 'Co-founder',
+    imageSrc: '/images/team/ridwan.jpeg',
+    linkedin: 'https://www.linkedin.com/in/ridwanmeshinoye',
+  },
+  {
+    name: 'Oluwafikunmi Eshilokun',
+    role: 'Co-founder',
+    imageSrc: '/images/team/fikunmi.jpeg',
+    linkedin: 'https://www.linkedin.com/in/oluwafikunmi-eshilokun',
+  },
+]
 
-    try {
-      const response = await fetch('/api/waitlist', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, name }),
-      })
-
-      const data = await response.json()
-
-      if (response.ok) {
-        setStatus('success')
-        setMessage('Successfully joined the waitlist! We\'ll be in touch soon.')
-        setEmail('')
-        setName('')
-        setShowSuccessModal(true)
-      } else {
-        setStatus('error')
-        setMessage(data.error || 'Something went wrong. Please try again.')
-        setShowErrorModal(true)
-      }
-    } catch (error) {
-      setStatus('error')
-      setMessage('Network error. Please check your connection and try again.')
-      setShowErrorModal(true)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  const founders = [
-    {
-      name: 'Ridwan Meshinoye',
-      role: 'Co-founder',
-      bio: 'Ridwan Meshinoye has a master\'s degree in mechanical engineering and loves playing football in his leisure time when he is not busy learning how to solve a newly identified problem.',
-      imageSrc: '/images/team/ridwan.jpeg',
-      linkedin: 'https://www.linkedin.com/in/ridwanmeshinoye',
-    },
-    {
-      name: 'Oluwafikunmi Eshilokun',
-      role: 'Co-founder',
-      bio: 'Oluwafikunmi Eshilokun holds an MSc in AI & Data Science. He designs data pipelines and in his free time, plays video games — same systems thinking, different arena.',
-      imageSrc: '/images/team/fikunmi.jpeg',
-      linkedin: 'https://www.linkedin.com/in/oluwafikunmi-eshilokun',
-    },
-  ] as const
-
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 animate-fade-in">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            <div className="flex items-center space-x-3 animate-fade-in-up animation-delay-100">
-              <div className="relative w-10 h-10 bg-transparent">
-                <Image
-                  src="/images/logo.png"
-                  alt="Kritly Logo"
-                  fill
-                  className="object-contain"
-                  priority
-                />
-              </div>
-              <span className="text-2xl font-bold text-[#40008C]">Kritly</span>
-            </div>
-            <div className="hidden md:flex items-center space-x-8 animate-fade-in-up animation-delay-200">
-              <a href="#features" className="text-gray-700 hover:text-[#40008C] transition-colors">Features</a>
-              <a href="#team" className="text-gray-700 hover:text-[#40008C] transition-colors">Team</a>
-              <a href="#waitlist" className="text-gray-700 hover:text-[#40008C] transition-colors">Join Waitlist</a>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
-        {/* Enhanced Background Pattern */}
-        <div className="absolute inset-0">
-          {/* Grid Pattern */}
-          <div className="absolute inset-0 opacity-5" style={{
-            backgroundImage: `linear-gradient(rgba(118, 47, 224, 0.1) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(118, 47, 224, 0.1) 1px, transparent 1px)`,
-            backgroundSize: '50px 50px'
-          }}></div>
-          {/* Animated Gradient Orbs - Hidden on mobile for better contrast */}
-          <div className="hidden sm:block absolute top-0 left-1/4 w-96 h-96 bg-[#40008C] rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div>
-          <div className="hidden sm:block absolute bottom-0 right-1/4 w-96 h-96 bg-[#FFC30D] rounded-full mix-blend-multiply filter blur-3xl opacity-8 animate-pulse" style={{ animationDelay: '1s' }}></div>
-          <div className="hidden sm:block absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#40008C]/20 rounded-full mix-blend-multiply filter blur-3xl opacity-8 animate-pulse" style={{ animationDelay: '2s' }}></div>
-        </div>
-        <div className="container mx-auto max-w-7xl relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="text-gray-900 animate-fade-in-up relative z-10 bg-white/95 sm:bg-transparent backdrop-blur-sm sm:backdrop-blur-none rounded-2xl sm:rounded-none p-6 sm:p-0">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight animate-fade-in-up animation-delay-100">
-                Review. Connect.{' '}
-                <span className="text-[#40008C]">Share <span className="text-[#FFC30D]">Stories</span>.</span>
+    <>
+      <SiteNav />
+      <main>
+        {/* Hero */}
+        <section className="relative overflow-hidden bg-ink pt-28 pb-20 text-white sm:pt-36 sm:pb-28">
+          <div className="grid-lines absolute inset-0" aria-hidden />
+          <div className="absolute -top-40 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-brand-700/40 blur-[120px]" aria-hidden />
+          <div className="container-x relative grid items-center gap-14 lg:grid-cols-[1.15fr_1fr]">
+            <div>
+              <span className="eyebrow border-white/15 bg-white/5 text-white/80">
+                <span className="h-1.5 w-1.5 rounded-full bg-sun" /> AI support &amp; sales for merchants
+              </span>
+              <h1 className="mt-6 font-display text-[2.6rem] font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+                Sell and support customers in <span className="text-gradient">every chat.</span>
               </h1>
-              <p className="text-xl sm:text-2xl text-gray-700 mb-8 leading-relaxed animate-fade-in-up animation-delay-200">
-                Kritly is a social media review platform where you can review places, social media accounts, and Kritly accounts. Take polls and share special short video experiences called Story Times.
+              <p className="mt-6 max-w-xl text-lg leading-8 text-white/70">
+                Kritly’s AI agent answers your customers on WhatsApp, Instagram and your website, day and night. It
+                handles product questions, takes orders and payments, checks order status, and hands off to your team
+                when a human is needed.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up animation-delay-300">
-                <a
-                  href="#waitlist"
-                  className="inline-flex items-center justify-center px-8 py-4 bg-[#40008C] text-white font-bold text-lg rounded-xl hover:bg-[#5A00C7] transition-all transform hover:scale-105 shadow-xl"
-                >
-                  Join the Waitlist
-                </a>
-                <a
-                  href="#features"
-                  className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#40008C] font-semibold text-lg rounded-xl border-2 border-[#40008C] hover:bg-[#40008C]/5 hover:border-[#FFC30D] transition-all"
-                >
-                  Explore Features
-                </a>
+              <div id="waitlist" className="mt-8 max-w-xl scroll-mt-28">
+                <WaitlistForm id="hero" />
               </div>
+              <a href="#how" className="mt-6 inline-block text-sm font-medium text-white/60 underline-offset-4 hover:text-white hover:underline">
+                See how it works ↓
+              </a>
             </div>
-            <div className="relative animate-scale-in animation-delay-400">
-              <div className="relative w-full max-w-sm mx-auto">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#40008C]/20 to-[#FFC30D]/20 rounded-3xl blur-3xl transform rotate-6"></div>
-                {/* Phone Frame */}
-                <div className="relative bg-black rounded-[3rem] p-2 shadow-2xl">
-                  {/* Notch */}
-                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-10"></div>
-                  {/* Screen */}
-                  <div className="relative bg-black rounded-[2.5rem] overflow-hidden aspect-[428/926] w-full">
-                    <Image
-                      src="/images/screenshots/hero-app.png"
-                      alt="Kritly App Preview"
-                      fill
-                      className="object-contain w-full h-full"
-                      sizes="(max-width: 640px) 100vw, 375px"
-                      priority
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ChatMock />
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Features Section */}
-      <section id="features" className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="container mx-auto max-w-7xl">
-          <ScrollAnimate animation="fade-in-up" className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-              Everything You Need to Review & Connect
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Discover the powerful features that make Kritly the ultimate review platform
-            </p>
-          </ScrollAnimate>
+        {/* Channels marquee */}
+        <section id="channels" className="border-y border-ink/10 bg-white py-6" aria-label="Channels">
+          <div className="overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)]">
+            <ul className="flex w-max animate-marquee gap-4">
+              {[...CHANNELS, ...CHANNELS, ...CHANNELS, ...CHANNELS].map((c, i) => (
+                <li
+                  key={i}
+                  aria-hidden={i >= CHANNELS.length}
+                  className="flex items-center gap-2 whitespace-nowrap rounded-full border border-ink/10 px-5 py-2 font-display text-lg font-semibold"
+                >
+                  {c.name}
+                  {c.status === 'soon' ? (
+                    <span className="rounded-full bg-brand-50 px-2 py-0.5 text-[11px] font-semibold text-brand-700">Coming soon</span>
+                  ) : (
+                    <span className="h-2 w-2 rounded-full bg-wa" title="Live" />
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
 
-          {/* Feature 1: Reviews */}
-          <ScrollAnimate animation="fade-in-up" className="mb-32 grid lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1">
-              <div className="relative w-full max-w-sm mx-auto">
-                {/* Phone Frame */}
-                <div className="relative bg-black rounded-[3rem] p-2 shadow-2xl">
-                  {/* Notch */}
-                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-10"></div>
-                  {/* Screen */}
-                  <div className="relative bg-black rounded-[2.5rem] overflow-hidden aspect-[428/926] w-full">
-                    <Image
-                      src="/images/screenshots/reviews-feature.png"
-                      alt="Reviews Feature"
-                      fill
-                      className="object-contain w-full h-full"
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="order-1 lg:order-2">
-              <div className="inline-flex items-center px-4 py-2 bg-[#40008C]/10 rounded-full mb-4">
-                <Star className="w-5 h-5 mr-2 text-[#40008C]" fill="#FFC30D" />
-                <span className="text-[#40008C] font-semibold">Reviews</span>
-              </div>
-              <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-                Review Places & Accounts
-              </h3>
-              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                Share your honest reviews about places you&apos;ve visited, social media accounts you follow, and Kritly accounts. Help others discover the best experiences and connect with like-minded reviewers.
-              </p>
-              <ul className="space-y-3">
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 mr-3 text-[#FFC30D] flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Rate and review places with detailed feedback</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 mr-3 text-[#FFC30D] flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Review social media accounts and content creators</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 mr-3 text-[#FFC30D] flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Build your reputation as a trusted reviewer</span>
-                </li>
-              </ul>
-            </div>
-          </ScrollAnimate>
+        {/* How it works */}
+        <section id="how" className="bg-white py-24">
+          <div className="container-x">
+            <Reveal className="max-w-2xl">
+              <span className="eyebrow border-brand-100 bg-brand-50 text-brand-700">How it works</span>
+              <h2 className="mt-4 font-display text-4xl font-bold tracking-tight sm:text-5xl">
+                Live in an afternoon. <span className="text-gradient-dark">Selling by tonight.</span>
+              </h2>
+            </Reveal>
+            <ol className="mt-14 grid gap-6 md:grid-cols-3">
+              {steps.map((s, i) => (
+                <Reveal as="li" key={s.title} delay={i * 120} className="relative rounded-3xl border border-ink/10 bg-white p-7 shadow-[0_1px_0_rgba(11,7,22,0.04)]">
+                  <span className="font-display text-6xl font-bold text-brand-100">0{i + 1}</span>
+                  <s.icon className="mt-4 h-6 w-6 text-brand-700" />
+                  <h3 className="mt-3 font-display text-xl font-semibold">{s.title}</h3>
+                  <p className="mt-2 leading-7 text-ink/70">{s.body}</p>
+                </Reveal>
+              ))}
+            </ol>
+          </div>
+        </section>
 
-          {/* Feature 2: Social Media Integration */}
-          <ScrollAnimate animation="fade-in-up" className="mb-32 grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-flex items-center px-4 py-2 bg-[#40008C]/10 rounded-full mb-4">
-                <Smartphone className="w-5 h-5 mr-2 text-[#40008C]" />
-                <span className="text-[#40008C] font-semibold">Social Media</span>
-              </div>
-              <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-                Connect Your Social World
-              </h3>
-              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                Seamlessly integrate with your favorite social media platforms. Review accounts, discover new creators, and build meaningful connections within the Kritly community.
-              </p>
-              <ul className="space-y-3">
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 mr-3 text-[#FFC30D] flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Link and review social media accounts</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 mr-3 text-[#FFC30D] flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Discover trending accounts and creators</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 mr-3 text-[#FFC30D] flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Follow reviewers with similar interests</span>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <div className="relative w-full max-w-sm mx-auto">
-                {/* Phone Frame */}
-                <div className="relative bg-black rounded-[3rem] p-2 shadow-2xl">
-                  {/* Notch */}
-                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-10"></div>
-                  {/* Screen */}
-                  <div className="relative bg-black rounded-[2.5rem] overflow-hidden aspect-[428/926] w-full">
-                    <Image
-                      src="/images/screenshots/social-feature.png"
-                      alt="Social Media Feature"
-                      fill
-                      className="object-contain w-full h-full"
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ScrollAnimate>
-
-          {/* Feature 3: Polls */}
-          <ScrollAnimate animation="fade-in-up" className="mb-32 grid lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1">
-              <div className="relative w-full max-w-sm mx-auto">
-                {/* Phone Frame */}
-                <div className="relative bg-black rounded-[3rem] p-2 shadow-2xl">
-                  {/* Notch */}
-                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-10"></div>
-                  {/* Screen */}
-                  <div className="relative bg-black rounded-[2.5rem] overflow-hidden aspect-[428/926] w-full">
-                    <Image
-                      src="/images/screenshots/polls-feature.png"
-                      alt="Polls Feature"
-                      fill
-                      className="object-contain w-full h-full"
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="order-1 lg:order-2">
-              <div className="inline-flex items-center px-4 py-2 bg-[#40008C]/10 rounded-full mb-4">
-                <BarChart3 className="w-5 h-5 mr-2 text-[#40008C]" />
-                <span className="text-[#40008C] font-semibold">Polls</span>
-              </div>
-              <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-                Engage with Interactive Polls
-              </h3>
-              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                Create and participate in polls to gather opinions, make decisions, and engage with the community. Get instant feedback on everything from places to visit to content preferences.
-              </p>
-              <ul className="space-y-3">
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 mr-3 text-[#FFC30D] flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Create polls on any topic</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 mr-3 text-[#FFC30D] flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Vote and see real-time results</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 mr-3 text-[#FFC30D] flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Share polls with your network</span>
-                </li>
-              </ul>
-            </div>
-          </ScrollAnimate>
-
-          {/* Feature 4: Story Times */}
-          <ScrollAnimate animation="fade-in-up" className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-flex items-center px-4 py-2 bg-[#40008C]/10 rounded-full mb-4">
-                <Video className="w-5 h-5 mr-2 text-[#40008C]" />
-                <span className="text-[#40008C] font-semibold">Story Times</span>
-              </div>
-              <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-                Share Your Story Times
-              </h3>
-              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                Create and share special short video experiences called Story Times. Capture moments, share experiences, and let your stories come to life in engaging short-form videos.
-              </p>
-              <ul className="space-y-3">
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 mr-3 text-[#FFC30D] flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Record and share short video stories</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 mr-3 text-[#FFC30D] flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Add effects and filters to your videos</span>
-                </li>
-                <li className="flex items-start">
-                  <Check className="w-5 h-5 mr-3 text-[#FFC30D] flex-shrink-0 mt-0.5" />
-                  <span className="text-gray-700">Discover trending Story Times from the community</span>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <div className="relative w-full max-w-sm mx-auto">
-                {/* Phone Frame */}
-                <div className="relative bg-black rounded-[3rem] p-2 shadow-2xl">
-                  {/* Notch */}
-                  <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-black rounded-b-2xl z-10"></div>
-                  {/* Screen */}
-                  <div className="relative bg-black rounded-[2.5rem] overflow-hidden aspect-[428/926] w-full">
-                    <Image
-                      src="/images/screenshots/story-times-feature.png"
-                      alt="Story Times Feature"
-                      fill
-                      className="object-contain w-full h-full"
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ScrollAnimate>
-        </div>
-      </section>
-
-      {/* Waitlist Section */}
-      <section id="waitlist" className="py-24 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
-        {/* Enhanced Background Pattern */}
-        <div className="absolute inset-0">
-          {/* Grid Pattern */}
-          <div className="absolute inset-0 opacity-5" style={{
-            backgroundImage: `linear-gradient(rgba(118, 47, 224, 0.1) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(118, 47, 224, 0.1) 1px, transparent 1px)`,
-            backgroundSize: '50px 50px'
-          }}></div>
-          {/* Subtle Gradient Orbs - Hidden on mobile for better contrast */}
-          <div className="hidden sm:block absolute top-0 right-0 w-96 h-96 bg-[#40008C] rounded-full mix-blend-multiply filter blur-3xl opacity-8"></div>
-          <div className="hidden sm:block absolute bottom-0 left-0 w-96 h-96 bg-[#FFC30D] rounded-full mix-blend-multiply filter blur-3xl opacity-6"></div>
-        </div>
-        <div className="container mx-auto max-w-4xl relative z-10">
-          <ScrollAnimate animation="fade-in-up" className="text-center mb-12 bg-white/95 sm:bg-transparent backdrop-blur-sm sm:backdrop-blur-none rounded-2xl sm:rounded-none p-6 sm:p-0">
-            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-              Be Among the First
-            </h2>
-            <p className="text-xl text-gray-700 max-w-2xl mx-auto">
-              Join thousands of early adopters and get exclusive access when Kritly launches
-            </p>
-          </ScrollAnimate>
-
-          <ScrollAnimate animation="scale-in" className="bg-white rounded-3xl shadow-2xl border-2 border-[#40008C]/10 p-8 sm:p-12 max-w-2xl mx-auto relative z-10">
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="name" className="block text-gray-700 font-semibold mb-2 text-lg">
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#40008C] focus:border-[#40008C] transition-all text-lg"
-                  placeholder="Enter your full name"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="email" className="block text-gray-700 font-semibold mb-2 text-lg">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="w-full px-5 py-4 rounded-xl border-2 border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#40008C] focus:border-[#40008C] transition-all text-lg"
-                  placeholder="Enter your email address"
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full py-4 px-6 bg-[#40008C] text-white font-bold text-xl rounded-xl hover:bg-[#5A00C7] focus:outline-none focus:ring-2 focus:ring-[#40008C] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-105 active:scale-95 shadow-lg"
-              >
-                {isLoading ? (
-                  <span className="flex items-center justify-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Joining...
+        {/* Features bento */}
+        <section id="features" className="bg-[#F7F4FC] py-24">
+          <div className="container-x">
+            <Reveal className="max-w-2xl">
+              <span className="eyebrow border-brand-100 bg-white text-brand-700">Features</span>
+              <h2 className="mt-4 font-display text-4xl font-bold tracking-tight sm:text-5xl">
+                A salesperson that never sleeps, <span className="text-gradient-dark">and a team that stays in control.</span>
+              </h2>
+            </Reveal>
+            <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {features.map((f, i) => (
+                <Reveal
+                  key={f.title}
+                  delay={(i % 4) * 80}
+                  className={`group rounded-3xl border border-ink/10 bg-white p-7 transition hover:-translate-y-1 hover:border-brand-200 hover:shadow-xl hover:shadow-brand-900/5 ${f.span}`}
+                >
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-gradient text-white">
+                    <f.icon className="h-5 w-5" />
                   </span>
-                ) : (
-                  'Join the Waitlist'
-                )}
-              </button>
-            </form>
-
-            <p className="mt-6 text-center text-gray-500 text-sm">
-              By joining, you agree to receive updates about Kritly. We respect your privacy.
-            </p>
-          </ScrollAnimate>
-        </div>
-      </section>
-
-      {/* Team / Founders */}
-      <section id="team" className="py-24 px-4 sm:px-6 lg:px-8 bg-white border-t border-gray-100">
-        <div className="container mx-auto max-w-6xl">
-          <ScrollAnimate animation="fade-in-up" className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 bg-[#40008C]/10 rounded-full mb-4">
-              <Users className="w-5 h-5 mr-2 text-[#40008C]" />
-              <span className="text-[#40008C] font-semibold">Founding team</span>
-            </div>
-            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-              Meet the founders
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              The people building Kritly.
-            </p>
-          </ScrollAnimate>
-
-          <div className="flex flex-col gap-8 lg:gap-10 max-w-4xl mx-auto">
-            {founders.map((founder, index) => (
-              <ScrollAnimate
-                key={index}
-                animation="fade-in-up"
-                delay={index === 0 ? 100 : 200}
-              >
-                <article className="flex flex-row gap-6 sm:gap-8 items-start bg-gray-50 rounded-3xl border-2 border-[#40008C]/10 p-6 sm:p-8 shadow-lg hover:shadow-xl hover:border-[#40008C]/20 transition-all">
-                  <div className="relative shrink-0 w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden ring-4 ring-white shadow-md bg-gray-200">
-                    <Image
-                      src={founder.imageSrc}
-                      alt={founder.name}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 640px) 96px, 128px"
-                    />
-                  </div>
-                  <div className="min-w-0 flex-1 flex flex-col">
-                    <h3 className="text-xl sm:text-2xl font-bold text-gray-900">{founder.name}</h3>
-                    <p className="text-[#40008C] font-semibold mt-0.5 mb-3">{founder.role}</p>
-                    <p className="text-gray-600 text-sm sm:text-base leading-relaxed">{founder.bio}</p>
-                    <a
-                      href={founder.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`${founder.name} on LinkedIn`}
-                      className="mt-4 self-start inline-flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-[#0077B5] text-[#0077B5] hover:bg-[#0077B5] hover:text-white transition-colors"
-                    >
-                      <Linkedin className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" aria-hidden />
-                    </a>
-                  </div>
-                </article>
-              </ScrollAnimate>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Connect With Us Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="container mx-auto max-w-6xl">
-          <ScrollAnimate animation="fade-in-up" className="text-center mb-12">
-            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-              Connect With Us
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Get in touch with us and stay updated with the latest from Kritly
-            </p>
-          </ScrollAnimate>
-
-          <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12">
-            {/* LinkedIn */}
-            <a
-              href="https://www.linkedin.com/company/kritly-inc"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex flex-col items-center transition-all transform hover:scale-110 animate-fade-in-up animation-delay-100"
-            >
-              <div className="w-16 h-16 bg-[#0077B5] rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                <Linkedin className="w-8 h-8 text-white" />
-              </div>
-              <span className="text-gray-900 font-semibold mb-1">LinkedIn</span>
-              <span className="text-sm text-gray-600">Kritly Inc</span>
-            </a>
-
-            {/* Email */}
-            <a
-              href="mailto:support@kritly.com"
-              className="group flex flex-col items-center transition-all transform hover:scale-110 animate-fade-in-up animation-delay-200"
-            >
-              <div className="w-16 h-16 bg-[#40008C] rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                <Mail className="w-8 h-8 text-white" />
-              </div>
-              <span className="text-gray-900 font-semibold mb-1">Email</span>
-              <span className="text-sm text-gray-600">support@kritly.com</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8 animate-fade-in-up">
-        <div className="container mx-auto max-w-7xl">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="flex items-center space-x-3 mb-4 md:mb-0 animate-fade-in-up animation-delay-100">
-              <div className="relative w-10 h-10 bg-transparent">
-                <Image
-                  src="/images/logo.png"
-                  alt="Kritly Logo"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-              <span className="text-2xl font-bold">Kritly</span>
-            </div>
-            <p className="text-gray-400 text-center md:text-right animate-fade-in-up animation-delay-200">
-              © 2026 Kritly. All rights reserved.
-            </p>
-          </div>
-        </div>
-      </footer>
-
-      {/* Success Modal */}
-      {showSuccessModal && (
-        <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in"
-          onClick={() => setShowSuccessModal(false)}
-        >
-          <div 
-            className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 sm:p-10 relative animate-scale-in"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close Button */}
-            <button
-              onClick={() => setShowSuccessModal(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
-              aria-label="Close modal"
-            >
-              <X className="w-6 h-6" />
-            </button>
-
-            {/* Success Icon */}
-            <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 bg-[#40008C]/10 rounded-full flex items-center justify-center">
-                <Check className="w-10 h-10 text-[#40008C]" strokeWidth={3} />
-              </div>
+                  <h3 className="mt-5 font-display text-lg font-semibold">{f.title}</h3>
+                  <p className="mt-2 text-[15px] leading-7 text-ink/70">{f.body}</p>
+                </Reveal>
+              ))}
             </div>
 
-            {/* Success Message */}
-            <div className="text-center">
-              <h3 className="text-3xl font-bold text-gray-900 mb-4">
-                You&apos;re In! 🎉
-              </h3>
-              <p className="text-lg text-gray-700 mb-6">
-                {message}
+            <Reveal className="mt-10 flex flex-col items-start gap-4 rounded-3xl bg-ink p-7 text-white sm:flex-row sm:items-center">
+              <ShieldCheck className="h-8 w-8 shrink-0 text-sun" />
+              <p className="leading-7 text-white/80">
+                Kritly connects only through official platform APIs. We never sell your data or your customers’ data.{' '}
+                <a href="/privacy" className="font-semibold text-white underline underline-offset-4">
+                  Read our Privacy Policy
+                </a>
+                .
               </p>
-              <button
-                onClick={() => setShowSuccessModal(false)}
-                className="w-full py-4 px-6 bg-[#40008C] text-white font-bold text-lg rounded-xl hover:bg-[#5A00C7] transition-all transform hover:scale-105 active:scale-95 shadow-lg"
-              >
-                Got it!
-              </button>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Team */}
+        <section id="team" className="bg-white py-24">
+          <div className="container-x">
+            <Reveal className="max-w-2xl">
+              <span className="eyebrow border-brand-100 bg-brand-50 text-brand-700">Team</span>
+              <h2 className="mt-4 font-display text-4xl font-bold tracking-tight">Built in Lagos, for merchants who sell in chat.</h2>
+            </Reveal>
+            <div className="mt-10 grid gap-5 sm:grid-cols-2">
+              {founders.map((p, i) => (
+                <Reveal key={p.name} delay={i * 100} className="flex items-center gap-5 rounded-3xl border border-ink/10 p-5">
+                  <Image src={p.imageSrc} alt={p.name} width={72} height={72} className="h-18 w-18 rounded-full object-cover" />
+                  <div className="flex-1">
+                    <p className="font-display font-semibold">{p.name}</p>
+                    <p className="text-sm text-ink/60">{p.role}</p>
+                  </div>
+                  <a href={p.linkedin} target="_blank" rel="noopener noreferrer" aria-label={`${p.name} on LinkedIn`} className="rounded-full border border-ink/10 p-2.5 text-ink/60 hover:text-brand-700">
+                    <Linkedin className="h-4 w-4" />
+                  </a>
+                </Reveal>
+              ))}
             </div>
           </div>
-        </div>
-      )}
+        </section>
 
-      {/* Error Modal */}
-      {showErrorModal && (
-        <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in"
-          onClick={() => setShowErrorModal(false)}
-        >
-          <div 
-            className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 sm:p-10 relative animate-scale-in"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close Button */}
-            <button
-              onClick={() => setShowErrorModal(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
-              aria-label="Close modal"
-            >
-              <X className="w-6 h-6" />
-            </button>
-
-            {/* Error Icon */}
-            <div className="flex justify-center mb-6">
-              <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center">
-                <svg className="w-10 h-10 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </div>
-            </div>
-
-            {/* Error Message */}
-            <div className="text-center">
-              <h3 className="text-3xl font-bold text-gray-900 mb-4">
-                Oops! Something went wrong
-              </h3>
-              <p className="text-lg text-gray-700 mb-6">
-                {message}
-              </p>
-              <button
-                onClick={() => setShowErrorModal(false)}
-                className="w-full py-4 px-6 bg-[#40008C] text-white font-bold text-lg rounded-xl hover:bg-[#5A00C7] transition-all transform hover:scale-105 active:scale-95 shadow-lg"
-              >
-                Try Again
-              </button>
+        {/* FAQ */}
+        <section id="faq" className="bg-[#F7F4FC] py-24">
+          <div className="container-x grid gap-12 lg:grid-cols-[1fr_1.4fr]">
+            <Reveal>
+              <span className="eyebrow border-brand-100 bg-white text-brand-700">FAQ</span>
+              <h2 className="mt-4 font-display text-4xl font-bold tracking-tight">Questions, answered.</h2>
+            </Reveal>
+            <div className="divide-y divide-ink/10 rounded-3xl border border-ink/10 bg-white">
+              {faqs.map((f) => (
+                <details key={f.q} className="group p-6">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display font-semibold">
+                    {f.q}
+                    <span className="text-xl text-brand-700 transition group-open:rotate-45">+</span>
+                  </summary>
+                  <p className="mt-3 leading-7 text-ink/70">{f.a}</p>
+                </details>
+              ))}
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        </section>
+
+        {/* Closing CTA */}
+        <section className="relative overflow-hidden bg-ink py-24 text-white">
+          <div className="absolute inset-0 bg-brand-gradient opacity-40" aria-hidden />
+          <div className="grid-lines absolute inset-0" aria-hidden />
+          <div className="container-x relative text-center">
+            <h2 className="mx-auto max-w-3xl font-display text-4xl font-bold tracking-tight sm:text-6xl">
+              Turn every message into a sale.
+            </h2>
+            <p className="mx-auto mt-5 max-w-xl text-lg text-white/75">
+              Kritly is opening to merchants soon. Join the waitlist for early access.
+            </p>
+            <div className="mx-auto mt-8 max-w-2xl text-left">
+              <WaitlistForm id="cta" />
+            </div>
+          </div>
+        </section>
+      </main>
+      <SiteFooter />
+    </>
   )
 }
