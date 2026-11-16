@@ -19,7 +19,7 @@ import { SiteNav } from '@/components/SiteNav'
 import { SiteFooter } from '@/components/SiteFooter'
 import { WaitlistForm } from '@/components/WaitlistForm'
 import { Reveal } from '@/components/Reveal'
-import { CHANNELS } from '@/lib/site'
+import { CHANNELS, COMPANY } from '@/lib/site'
 
 /* ── Hero chat mock (demo content, not real customer data) ─────────────── */
 type Msg =
@@ -124,7 +124,7 @@ const features = [
     icon: Bot,
     title: 'AI sales and support agent',
     body: 'Answers questions, recommends products and resolves common issues in your brand’s voice, from what you’ve taught it.',
-    span: 'lg:col-span-2',
+    span: '',
   },
   {
     icon: ShoppingBag,
@@ -172,7 +172,7 @@ const features = [
     icon: BarChart3,
     title: 'See what it’s doing',
     body: 'Track conversations, how they were answered and how chats turn into paid orders.',
-    span: 'sm:col-span-2 lg:col-span-3',
+    span: 'sm:col-span-2 lg:col-span-1',
   },
 ]
 
@@ -300,11 +300,11 @@ export default function HomePage() {
                 A salesperson that never sleeps, <span className="text-gradient-dark">and a team that stays in control.</span>
               </h2>
             </Reveal>
-            <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {features.map((f, i) => (
                 <Reveal
                   key={f.title}
-                  delay={(i % 4) * 80}
+                  delay={(i % 3) * 80}
                   className={`group rounded-3xl border border-ink/10 bg-white p-7 transition hover:-translate-y-1 hover:border-brand-200 hover:shadow-xl hover:shadow-brand-900/5 ${f.span}`}
                 >
                   <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-gradient text-white">
@@ -339,7 +339,7 @@ export default function HomePage() {
             <div className="mt-10 grid gap-5 sm:grid-cols-2">
               {founders.map((p, i) => (
                 <Reveal key={p.name} delay={i * 100} className="flex items-center gap-5 rounded-3xl border border-ink/10 p-5">
-                  <Image src={p.imageSrc} alt={p.name} width={72} height={72} className="h-18 w-18 rounded-full object-cover" />
+                  <Image src={p.imageSrc} alt={p.name} width={72} height={72} className="h-[72px] w-[72px] shrink-0 rounded-full object-cover ring-4 ring-brand-50" />
                   <div className="flex-1">
                     <p className="font-display font-semibold">{p.name}</p>
                     <p className="text-sm text-ink/60">{p.role}</p>
@@ -355,14 +355,21 @@ export default function HomePage() {
 
         {/* FAQ */}
         <section id="faq" className="bg-[#F7F4FC] py-24">
-          <div className="container-x grid gap-12 lg:grid-cols-[1fr_1.4fr]">
-            <Reveal>
+          <div className="container-x grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-16">
+            <Reveal className="lg:sticky lg:top-28">
               <span className="eyebrow border-brand-100 bg-white text-brand-700">FAQ</span>
               <h2 className="mt-4 font-display text-4xl font-bold tracking-tight">Questions, answered.</h2>
+              <p className="mt-4 max-w-sm leading-7 text-ink/70">
+                What merchants ask us most about getting started with Kritly.
+              </p>
+              <p className="mt-6 text-sm text-ink/60">
+                Something else? Email us at{' '}
+                <span className="font-semibold text-ink">{COMPANY.email}</span>
+              </p>
             </Reveal>
-            <div className="divide-y divide-ink/10 rounded-3xl border border-ink/10 bg-white">
-              {faqs.map((f) => (
-                <details key={f.q} className="group p-6">
+            <div className="min-w-0 divide-y divide-ink/10 rounded-3xl border border-ink/10 bg-white">
+              {faqs.map((f, i) => (
+                <details key={f.q} open={i === 0} className="group p-6 sm:p-7">
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display font-semibold">
                     {f.q}
                     <span className="text-xl text-brand-700 transition group-open:rotate-45">+</span>
