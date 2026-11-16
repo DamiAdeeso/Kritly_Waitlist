@@ -14,7 +14,7 @@ export function Reveal({
   delay?: number
   as?: 'div' | 'li' | 'section' | 'article'
 }) {
-  const ref = useRef<HTMLElement>(null)
+  const ref = useRef<HTMLElement | null>(null)
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -35,8 +35,9 @@ export function Reveal({
 
   return (
     <Tag
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ref={ref as any}
+      ref={(el: HTMLElement | null) => {
+        ref.current = el
+      }}
       className={`reveal ${visible ? 'is-visible' : ''} ${className}`}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
     >

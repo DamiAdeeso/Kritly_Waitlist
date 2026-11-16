@@ -7,8 +7,8 @@ export const COMPANY = {
   address: '8 The Green, Dover, Delaware 19901, United States',
   phone: '+1 302 385 8001',
   phoneHref: 'tel:+13023858001',
-  email: 'hello@kritly.com',
-  privacyEmail: 'privacy@kritly.com',
+  email: 'support@kritly.com',
+  privacyEmail: 'support@kritly.com',
   linkedin: 'https://www.linkedin.com/company/kritly-inc',
 } as const
 

@@ -6,7 +6,7 @@ import { ArrowRight, Check, Loader2 } from 'lucide-react'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
-export function WaitlistForm({ id = 'waitlist-form', compact = false }: { id?: string; compact?: boolean }) {
+export function WaitlistForm({ id = 'waitlist-form' }: { id?: string }) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<Status>('idle')
@@ -61,7 +61,7 @@ export function WaitlistForm({ id = 'waitlist-form', compact = false }: { id?: s
 
   return (
     <form onSubmit={onSubmit} aria-describedby={`${id}-note`} className="w-full">
-      <div className={`flex flex-col gap-3 ${compact ? 'lg:flex-row' : 'sm:flex-row'}`}>
+      <div className="grid gap-3 sm:grid-cols-2">
         <label className="sr-only" htmlFor={`${id}-name`}>
           Your name
         </label>
@@ -87,7 +87,7 @@ export function WaitlistForm({ id = 'waitlist-form', compact = false }: { id?: s
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <button type="submit" className="btn-primary h-12 shrink-0 py-0" disabled={status === 'loading'}>
+        <button type="submit" className="btn-primary h-12 py-0 sm:col-span-2 sm:justify-self-start" disabled={status === 'loading'}>
           {status === 'loading' ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" /> Joining…

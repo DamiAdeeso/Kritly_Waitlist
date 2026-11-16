@@ -7,12 +7,11 @@ function siteUrl(): string {
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = siteUrl()
+  const now = new Date()
   return [
-    {
-      url: base,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
-    },
+    { url: base, lastModified: now, changeFrequency: 'weekly', priority: 1 },
+    { url: `${base}/privacy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${base}/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${base}/data-deletion`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
   ]
 }

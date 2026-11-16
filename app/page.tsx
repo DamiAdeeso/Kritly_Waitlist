@@ -172,7 +172,7 @@ const features = [
     icon: BarChart3,
     title: 'See what it’s doing',
     body: 'Track conversations, how they were answered and how chats turn into paid orders.',
-    span: 'lg:col-span-2',
+    span: 'sm:col-span-2 lg:col-span-3',
   },
 ]
 
