@@ -25,9 +25,11 @@ export const DELETION_DAYS = 30
  * Live = has a messaging adapter registered in core-api.
  */
 export const CHANNELS = [
-  { name: 'WhatsApp', status: 'live' },
-  { name: 'Instagram', status: 'live' },
-  { name: 'Web chat', status: 'live' },
-  { name: 'Messenger', status: 'soon' },
-  { name: 'TikTok', status: 'soon' },
+  { key: 'whatsapp', name: 'WhatsApp', status: 'live' },
+  { key: 'instagram', name: 'Instagram', status: 'live' },
+  { key: 'webchat', name: 'Web chat', status: 'live' },
+  { key: 'messenger', name: 'Messenger', status: 'soon' },
+  { key: 'tiktok', name: 'TikTok', status: 'soon' },
 ] as const
+
+export type ChannelKey = (typeof CHANNELS)[number]['key']

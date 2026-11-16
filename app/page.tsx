@@ -19,6 +19,7 @@ import { SiteNav } from '@/components/SiteNav'
 import { SiteFooter } from '@/components/SiteFooter'
 import { WaitlistForm } from '@/components/WaitlistForm'
 import { Reveal } from '@/components/Reveal'
+import { ChannelIcon } from '@/components/ChannelIcon'
 import { CHANNELS, COMPANY } from '@/lib/site'
 
 /* ── Hero chat mock (demo content, not real customer data) ─────────────── */
@@ -255,8 +256,9 @@ export default function HomePage() {
                 <li
                   key={i}
                   aria-hidden={i >= CHANNELS.length}
-                  className="flex items-center gap-2 whitespace-nowrap rounded-full border border-ink/10 px-5 py-2 font-display text-lg font-semibold"
+                  className="flex items-center gap-2.5 whitespace-nowrap rounded-full border border-ink/10 py-1.5 pl-1.5 pr-5 font-display text-lg font-semibold"
                 >
+                  <ChannelIcon channel={c.key} size={32} />
                   {c.name}
                   {c.status === 'soon' ? (
                     <span className="rounded-full bg-brand-50 px-2 py-0.5 text-[11px] font-semibold text-brand-700">Coming soon</span>
