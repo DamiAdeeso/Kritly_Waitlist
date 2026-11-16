@@ -2,12 +2,14 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, name } = await request.json()
+    const body = await request.json()
+    const email = typeof body?.email === 'string' ? body.email.trim() : ''
+    // Name is optional: the landing page asks for email only.
+    const name = typeof body?.name === 'string' ? body.name.trim() : ''
 
-    // Validate input
-    if (!email || !name) {
+    if (!email) {
       return NextResponse.json(
-        { error: 'Email and name are required' },
+        { error: 'Enter your email address.' },
         { status: 400 }
       )
     }

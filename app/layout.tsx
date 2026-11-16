@@ -1,9 +1,12 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter, Poppins } from 'next/font/google'
+import { Archivo, Inter, Instrument_Sans, Poppins } from 'next/font/google'
 import { COMPANY, SITE_URL } from '@/lib/site'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
+// Landing page: wide Archivo for headlines, Instrument Sans for text.
+const archivo = Archivo({ subsets: ['latin'], axes: ['wdth'], variable: '--font-archivo', display: 'swap' })
+const instrument = Instrument_Sans({ subsets: ['latin'], variable: '--font-instrument', display: 'swap' })
 const poppins = Poppins({
   subsets: ['latin'],
   weight: ['500', '600', '700', '800'],
@@ -11,13 +14,14 @@ const poppins = Poppins({
   display: 'swap',
 })
 
+const TITLE = 'Kritly — Your DMs sell, even while you sleep'
 const description =
-  "Kritly is an AI customer support and sales platform for merchants. Kritly's AI agent answers your customers on WhatsApp, Instagram and your website, takes orders and payments inside the chat, and hands off to your team when a human is needed."
+  'Kritly is an AI sales and support agent for merchants. It answers every “How much?” in seconds, takes the order, collects payment with a secure link, and brings you in only when a human is needed, across WhatsApp, Instagram and your website.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Kritly — Sell and support customers in every chat',
+    default: TITLE,
     template: '%s · Kritly',
   },
   description,
@@ -33,7 +37,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: COMPANY.legalName }],
   openGraph: {
-    title: 'Kritly — Sell and support customers in every chat',
+    title: TITLE,
     description,
     type: 'website',
     locale: 'en_US',
@@ -42,7 +46,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Kritly — Sell and support customers in every chat',
+    title: TITLE,
     description,
   },
   icons: {
@@ -61,7 +65,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
+    <html lang="en" className={`${inter.variable} ${poppins.variable} ${archivo.variable} ${instrument.variable}`}>
       <body className="font-sans">
         <script
           type="application/ld+json"

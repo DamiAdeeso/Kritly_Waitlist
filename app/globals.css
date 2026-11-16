@@ -87,6 +87,84 @@ body {
   }
 }
 
+/* ── Landing page ───────────────────────────────────────────────────── */
+.k-display {
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-variation-settings: 'wdth' 116;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+/* Yellow marker stroke behind a phrase, like a price sticker. */
+.k-mark {
+  background: linear-gradient(transparent 55%, #ffc30d 55%, #ffc30d 92%, transparent 92%);
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding: 0 0.08em;
+}
+.k-pop {
+  animation: k-pop 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes k-pop {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.k-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6b6282;
+  animation: k-blink 1.2s infinite;
+}
+.k-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.k-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+@keyframes k-blink {
+  0%,
+  80%,
+  100% {
+    opacity: 0.25;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+.k-home summary {
+  cursor: pointer;
+  list-style: none;
+}
+.k-home summary::-webkit-details-marker {
+  display: none;
+}
+.k-home details[open] .k-faq-plus {
+  transform: rotate(45deg);
+}
+.k-faq-plus {
+  transition: transform 0.2s ease;
+}
+.k-home input::placeholder {
+  color: #6b6282;
+}
+.k-home :is(input, a, button, summary):focus-visible {
+  outline: 2px solid #40008c;
+  outline-offset: 3px;
+}
+.k-home .on-dark :is(input, a, button, summary):focus-visible {
+  outline-color: #ffc30d;
+}
+.k-home {
+  font-variant-numeric: tabular-nums;
+}
+
 /* Scroll reveal */
 .reveal {
   opacity: 0;
