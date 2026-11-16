@@ -8,6 +8,26 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        /* Landing page: brand purple + logo yellow on a light page. */
+        k: {
+          bg: '#FFFFFF',
+          paper: '#F6F3FB',
+          tint: '#EFE8FB',
+          ink: '#170B2E',
+          body: '#4A4060',
+          muted: '#6B6282',
+          line: '#E6E0F0',
+          purple: '#40008C',
+          'purple-hover': '#5410B0',
+          lilac: '#D9CCF5',
+          hi: '#FFC30D',
+          'hi-hover': '#FFD24D',
+          warm: '#A34A00',
+          bubble: '#F1EEF6',
+          ig: '#D6246E',
+          wa: '#1FA855',
+          web: '#2F6FE0',
+        },
         ink: {
           DEFAULT: '#0B0716',
           900: '#0B0716',
@@ -38,6 +58,8 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-inter)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         display: ['var(--font-poppins)', 'var(--font-inter)', 'ui-sans-serif', 'sans-serif'],
+        kbody: ['var(--font-instrument)', 'system-ui', 'sans-serif'],
+        kdisplay: ['var(--font-archivo)', 'var(--font-instrument)', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
         'brand-gradient': 'linear-gradient(120deg, #40008C 0%, #7C2FFF 55%, #C04BFF 100%)',

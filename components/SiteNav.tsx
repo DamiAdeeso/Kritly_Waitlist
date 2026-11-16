@@ -8,7 +8,7 @@ import { Menu, X } from 'lucide-react'
 const links = [
   { href: '/#how', label: 'How it works' },
   { href: '/#features', label: 'Features' },
-  { href: '/#channels', label: 'Channels' },
+  { href: '/#offer', label: 'Early access' },
   { href: '/#faq', label: 'FAQ' },
 ]
 
@@ -53,7 +53,7 @@ export function SiteNav({ tone = 'dark' }: { tone?: 'dark' | 'light' }) {
             href="/#waitlist"
             className="hidden rounded-full bg-sun px-4 py-2 text-sm font-semibold text-ink transition hover:bg-sun-400 sm:inline-flex"
           >
-            Join the waitlist
+            Get early access
           </Link>
           <button
             type="button"
@@ -81,7 +81,7 @@ export function SiteNav({ tone = 'dark' }: { tone?: 'dark' | 'light' }) {
               </Link>
             ))}
             <Link href="/#waitlist" onClick={() => setOpen(false)} className="btn-primary mt-2 mb-2">
-              Join the waitlist
+              Get early access
             </Link>
           </div>
         </div>

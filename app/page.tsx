@@ -1,406 +1,472 @@
 import Image from 'next/image'
-import {
-  Bot,
-  Inbox,
-  ShoppingBag,
-  UserRound,
-  PackageSearch,
-  RefreshCw,
-  BookOpen,
-  Code2,
-  BarChart3,
-  ShieldCheck,
-  Plug,
-  GraduationCap,
-  MessageSquareText,
-  Linkedin,
-} from 'lucide-react'
-import { SiteNav } from '@/components/SiteNav'
-import { SiteFooter } from '@/components/SiteFooter'
-import { WaitlistForm } from '@/components/WaitlistForm'
-import { Reveal } from '@/components/Reveal'
-import { ChannelIcon } from '@/components/ChannelIcon'
-import { CHANNELS, COMPANY } from '@/lib/site'
+import Link from 'next/link'
+import { EarlyAccessForm } from '@/components/home/EarlyAccessForm'
+import { InboxDemo } from '@/components/home/InboxDemo'
+import { COMPANY } from '@/lib/site'
 
-/* ── Hero chat mock (demo content, not real customer data) ─────────────── */
-type Msg =
-  | { from: 'customer' | 'agent'; text: string }
-  | { from: 'card'; title: string; meta: string; price: string }
-  | { from: 'pay'; text: string }
-  | { from: 'event'; text: string }
+/*
+ * Landing page. Mobile first: base styles are for ~360px phones, then sm / md / lg / xl.
+ * Product claims are checked against kritly main (channels, payments, handoff, order lookup).
+ */
 
-const CHAT: Msg[] = [
-  { from: 'customer', text: 'Hi! Do you have the linen two-piece in size M?' },
-  { from: 'agent', text: 'Yes, it’s in stock in M. Want me to add it to your cart?' },
-  { from: 'card', title: 'Linen Two-Piece Set', meta: 'Size M · Sand', price: '₦28,500' },
-  { from: 'customer', text: 'Yes please. Delivery to Lekki' },
-  { from: 'pay', text: 'Pay ₦31,000 securely' },
-  { from: 'event', text: 'Payment received · Order confirmed' },
-  { from: 'customer', text: 'Can I talk to someone about a custom size?' },
-  { from: 'event', text: 'Handed to your team with full history' },
+const WRAP = 'mx-auto w-full max-w-[1160px] px-4 sm:px-6'
+const SECTION = 'py-16 sm:py-20 lg:py-28'
+const H2 = 'k-display m-0 text-[clamp(30px,6.4vw,52px)] leading-[1.02] text-k-ink'
+
+const stats = [
+  {
+    value: '14M',
+    body: 'Nigerian small businesses used WhatsApp, Instagram and Facebook to start and grow in 2025.',
+    source: 'Public First for Meta, 2026',
+  },
+  {
+    value: '56%',
+    body: 'of Nigerian small businesses that sell online do it only through social media, with no website or store.',
+    source: 'GSMA',
+  },
+  {
+    value: '<10 min',
+    body: 'is how fast 60% of people expect a reply when they message a business on WhatsApp.',
+    source: 'Aurora Inbox, 2026',
+  },
 ]
 
-function ChatMock() {
-  return (
-    <div className="relative mx-auto w-full max-w-[360px] animate-float">
-      <div className="absolute -inset-8 rounded-[3rem] bg-brand-500/30 blur-3xl animate-glow" aria-hidden />
-      <div className="relative overflow-hidden rounded-[2.2rem] border border-white/10 bg-ink-800 shadow-2xl">
-        <div className="flex items-center gap-3 border-b border-white/10 bg-ink-700/80 px-4 py-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-gradient font-display text-sm font-bold text-white">
-            A
-          </span>
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-semibold text-white">Adunni Studio</p>
-            <p className="text-[11px] text-wa">● replying instantly</p>
-          </div>
-          <span className="rounded-full bg-wa/15 px-2 py-0.5 text-[10px] font-semibold text-wa">WhatsApp</span>
-        </div>
-        <ol className="flex flex-col gap-2 px-3 py-4 text-[13px] leading-snug" aria-label="Example conversation">
-          {CHAT.map((m, i) => {
-            const style = { animationDelay: `${0.4 + i * 0.55}s` }
-            if (m.from === 'customer')
-              return (
-                <li key={i} style={style} className="max-w-[80%] self-start animate-msg-in rounded-2xl rounded-bl-md bg-white/10 px-3 py-2 text-white">
-                  {m.text}
-                </li>
-              )
-            if (m.from === 'agent')
-              return (
-                <li key={i} style={style} className="max-w-[80%] self-end animate-msg-in rounded-2xl rounded-br-md bg-brand-600 px-3 py-2 text-white">
-                  {m.text}
-                </li>
-              )
-            if (m.from === 'card')
-              return (
-                <li key={i} style={style} className="w-[78%] self-end animate-msg-in overflow-hidden rounded-2xl border border-white/10 bg-ink-700">
-                  <div className="h-16 bg-[linear-gradient(135deg,#e9d8b8,#c9a77a)]" aria-hidden />
-                  <div className="flex items-end justify-between gap-2 p-3">
-                    <div>
-                      <p className="font-semibold text-white">{m.title}</p>
-                      <p className="text-[11px] text-white/50">{m.meta}</p>
-                    </div>
-                    <p className="font-display font-semibold text-sun">{m.price}</p>
-                  </div>
-                </li>
-              )
-            if (m.from === 'pay')
-              return (
-                <li key={i} style={style} className="self-end animate-msg-in rounded-full bg-sun px-4 py-2 font-semibold text-ink">
-                  {m.text} →
-                </li>
-              )
-            return (
-              <li key={i} style={style} className="self-center animate-msg-in rounded-full border border-wa/30 bg-wa/10 px-3 py-1 text-[11px] font-medium text-wa">
-                {m.text}
-              </li>
-            )
-          })}
-        </ol>
-      </div>
-    </div>
-  )
-}
+const beforeAfter = [
+  {
+    says: '“How much?”',
+    when: 'at 11pm',
+    today: 'You see it at 7am. They bought from someone else.',
+    kritly: 'Price, photo and sizes in seconds, then it asks if they want it.',
+  },
+  {
+    says: '“Send account details”',
+    today: 'Screenshots, checking your bank app, chasing “I’ve paid.”',
+    kritly: 'A secure Paystack, Flutterwave or Stripe link, confirmed right in the chat.',
+  },
+  {
+    says: '“Where’s my order?”',
+    today: 'Scrolling old chats to find it, five times a day.',
+    kritly: 'The order’s status straight away, after Kritly checks it’s really theirs.',
+  },
+  {
+    says: '“Can you do a custom size?”',
+    today: 'Lost under 200 unread messages.',
+    kritly: 'Passed to the right person on your team, with the whole chat attached.',
+  },
+  {
+    says: 'DMs on three apps',
+    today: 'Instagram on one phone, WhatsApp on another, the website ignored.',
+    kritly: 'One shared inbox. You see who’s replying, so nobody answers twice.',
+  },
+]
 
-/* ── Content (each claim maps to something shipped on kritly main) ─────── */
 const steps = [
   {
-    icon: Plug,
     title: 'Connect your channels',
-    body: 'Link WhatsApp Business and Instagram with each platform’s official sign-in, and drop our chat widget on your website.',
+    time: 'About 5 minutes',
+    body: 'Sign in to WhatsApp Business and Instagram with each platform’s official login. If you have a website, add the chat widget.',
   },
   {
-    icon: GraduationCap,
-    title: 'Teach Kritly your business',
-    body: 'Add products, prices, delivery options, business hours and policies, or sync your Shopify or WooCommerce catalogue. Set the voice it speaks in.',
+    title: 'Teach Kritly your shop',
+    time: 'An afternoon',
+    body: 'Add products, prices, delivery fees, opening hours and policies, or sync them from Shopify or WooCommerce. Choose how it should sound.',
   },
   {
-    icon: MessageSquareText,
-    title: 'Let Kritly reply',
-    body: 'Customers get instant, accurate answers. You see every conversation in one inbox and can step in at any time.',
+    title: 'Let it reply',
+    time: 'From tonight',
+    body: 'Customers get quick, accurate answers. Every conversation lands in one inbox, and you can take over any of them.',
   },
 ]
 
-const features = [
-  {
-    icon: Bot,
-    title: 'AI sales and support agent',
-    body: 'Answers questions, recommends products and resolves common issues in your brand’s voice, from what you’ve taught it.',
-    span: '',
-  },
-  {
-    icon: ShoppingBag,
-    title: 'Shop inside the chat',
-    body: 'Customers browse, build a cart and pay with a secure link (Paystack, Flutterwave or Stripe) without leaving the conversation.',
-    span: '',
-  },
-  {
-    icon: Inbox,
-    title: 'One shared inbox',
-    body: 'WhatsApp, Instagram and web chat in one place. Assign, add notes and see when a teammate is already replying.',
-    span: '',
-  },
-  {
-    icon: UserRound,
-    title: 'Human handoff',
-    body: 'Set the rules and hours. Kritly passes the conversation to the right person on your team with the full history attached.',
-    span: '',
-  },
-  {
-    icon: PackageSearch,
-    title: '“Where’s my order?”',
-    body: 'Customers ask about an order and get its current status straight away, after Kritly checks it’s really theirs.',
-    span: '',
-  },
-  {
-    icon: RefreshCw,
-    title: 'Catalogue sync',
-    body: 'Bring products in from Shopify, WooCommerce or your own system, and keep stock and prices current.',
-    span: '',
-  },
-  {
-    icon: BookOpen,
-    title: 'Knowledge base',
-    body: 'Add articles and policies once. Kritly uses them in replies and suggests them to your team in the inbox.',
-    span: '',
-  },
-  {
-    icon: Code2,
-    title: 'Web chat for your site',
-    body: 'A themeable chat widget with React, Vue, Angular and script-tag installs.',
-    span: '',
-  },
-  {
-    icon: BarChart3,
-    title: 'See what it’s doing',
-    body: 'Track conversations, how they were answered and how chats turn into paid orders.',
-    span: 'sm:col-span-2 lg:col-span-1',
-  },
+const perks = [
+  { title: 'First access', body: 'Before public launch.' },
+  { title: 'Founding-merchant pricing', body: '[OFFER — e.g. locked-in rate]' },
+  { title: 'Set up with the founders', body: 'We help you teach Kritly your shop.' },
+  { title: 'A say in what we build', body: 'A direct line to the team.' },
 ]
 
 const faqs = [
   {
-    q: 'Which channels does Kritly work on?',
+    q: 'Will the AI make things up?',
+    a: 'Kritly answers from what you’ve taught it: your products, prices, delivery options and policies. When a conversation needs a person, it hands off to your team with the whole chat. You see every conversation and can step in any time.',
+  },
+  {
+    q: 'Do I need a website?',
+    a: 'No. Kritly works inside your WhatsApp and Instagram DMs. If you do have a website, you can add our chat widget too.',
+  },
+  {
+    q: 'Which channels does it work on?',
     a: 'WhatsApp, Instagram and web chat today. Facebook Messenger and TikTok are coming soon.',
   },
   {
-    q: 'Will the AI make things up?',
-    a: 'Kritly answers from the products, policies and knowledge you give it. You choose when it hands off, and you can take over any conversation at any time.',
-  },
-  {
-    q: 'How do customers pay?',
-    a: 'Kritly sends a secure checkout link from Paystack, Flutterwave or Stripe inside the chat, and confirms the order once payment lands.',
-  },
-  {
     q: 'Is my data safe?',
-    a: 'Kritly connects only through official platform APIs. We never sell your data or your customers’ data.',
+    a: 'Kritly connects only through each platform’s official API and sign-in. We never sell your data or your customers’ data.',
   },
   {
-    q: 'When can I start?',
-    a: 'We’re opening to merchants in batches. Join the waitlist and we’ll email you when your spot is ready.',
+    q: 'When can I start, and what will it cost?',
+    a: 'We’re opening to merchants soon, waitlist first. Joining is free, and founding merchants get [EARLY-ACCESS PRICING].',
   },
 ]
 
-const founders = [
-  {
-    name: 'Ridwan Meshinoye',
-    role: 'Co-founder',
-    imageSrc: '/images/team/ridwan.jpeg',
-    linkedin: 'https://www.linkedin.com/in/ridwanmeshinoye',
-  },
-  {
-    name: 'Oluwafikunmi Eshilokun',
-    role: 'Co-founder',
-    imageSrc: '/images/team/fikunmi.jpeg',
-    linkedin: 'https://www.linkedin.com/in/oluwafikunmi-eshilokun',
-  },
-]
+function Logo({ dark = false }: { dark?: boolean }) {
+  return (
+    <span className="flex items-center gap-2">
+      <Image src="/images/logo.png" alt="" width={28} height={29} priority />
+      <span className={`k-display text-[21px] ${dark ? 'text-white' : 'text-k-ink'}`}>kritly</span>
+    </span>
+  )
+}
 
 export default function HomePage() {
   return (
-    <>
-      <SiteNav />
+    <div className="k-home min-h-screen overflow-x-hidden bg-k-bg font-kbody text-[16px] leading-[1.6] text-k-ink">
+      {/* Announcement */}
+      <a href="#offer" className="block bg-k-hi px-4 py-2.5 text-center text-sm font-medium text-k-ink no-underline hover:underline">
+        Founding merchants get early access and founding-merchant pricing <span aria-hidden>→</span>
+      </a>
+
+      {/* Nav */}
+      <header className="sticky top-0 z-20 border-b border-k-line bg-white/90 backdrop-blur">
+        <nav aria-label="Main" className={`${WRAP} flex h-16 items-center justify-between gap-4`}>
+          <a href="#top" className="no-underline" aria-label="Kritly home">
+            <Logo />
+          </a>
+          <div className="hidden items-center gap-1 text-sm font-medium md:flex">
+            {[
+              ['#how', 'How it works'],
+              ['#features', 'Features'],
+              ['#offer', 'Early access'],
+              ['#faq', 'FAQ'],
+            ].map(([href, label]) => (
+              <a key={href} href={href} className="rounded-lg px-3 py-2 text-k-body no-underline hover:bg-k-paper hover:text-k-ink">
+                {label}
+              </a>
+            ))}
+          </div>
+          <a
+            href="#waitlist"
+            className="inline-flex h-10 items-center rounded-xl bg-k-purple px-4 text-sm font-semibold text-white no-underline hover:bg-k-purple-hover"
+          >
+            Get early access
+          </a>
+        </nav>
+      </header>
+
       <main>
         {/* Hero */}
-        <section className="relative overflow-hidden bg-ink pt-28 pb-20 text-white sm:pt-36 sm:pb-28">
-          <div className="grid-lines absolute inset-0" aria-hidden />
-          <div className="absolute -top-40 left-1/2 h-[520px] w-[900px] -translate-x-1/2 rounded-full bg-brand-700/40 blur-[120px]" aria-hidden />
-          <div className="container-x relative grid items-center gap-14 lg:grid-cols-[1.15fr_1fr]">
-            <div>
-              <span className="eyebrow border-white/15 bg-white/5 text-white/80">
-                <span className="h-1.5 w-1.5 rounded-full bg-sun" /> AI support &amp; sales for merchants
-              </span>
-              <h1 className="mt-6 font-display text-[2.6rem] font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-                Sell and support customers in <span className="text-gradient">every chat.</span>
-              </h1>
-              <p className="mt-6 max-w-xl text-lg leading-8 text-white/70">
-                Kritly’s AI agent answers your customers on WhatsApp, Instagram and your website, day and night. It
-                handles product questions, takes orders and payments, checks order status, and hands off to your team
-                when a human is needed.
+        <section id="top" className="pb-16 pt-12 sm:pb-20 sm:pt-16 lg:pt-20">
+          <div className={WRAP}>
+            <p className="m-0 text-sm font-semibold text-k-purple">An AI sales assistant for people who sell in their DMs</p>
+            <h1 className="k-display mb-0 mt-4 max-w-[13ch] text-[clamp(40px,10vw,96px)] leading-[0.98] text-k-ink">
+              Your DMs sell, <span className="k-mark">even while you sleep.</span>
+            </h1>
+            <div className="mt-6 grid gap-8 lg:mt-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end lg:gap-16">
+              <p className="m-0 max-w-[58ch] text-[17px] text-k-body sm:text-lg">
+                Kritly answers every “How much?” in seconds, takes the order, collects payment with a secure link, and
+                brings you in when a person is needed. It works on WhatsApp, Instagram and your website. Messenger and
+                TikTok are coming soon.
               </p>
-              <div id="waitlist" className="mt-8 max-w-xl scroll-mt-28">
-                <WaitlistForm id="hero" />
+              <div>
+                <EarlyAccessForm id="hero-email" />
+                <p className="mb-0 mt-3 text-sm text-k-muted">
+                  Free to join, no card needed. We’ll only email you about early access.{' '}
+                  <Link href="/privacy" className="text-k-purple underline underline-offset-2">
+                    Privacy
+                  </Link>
+                </p>
               </div>
-              <a href="#how" className="mt-6 inline-block text-sm font-medium text-white/60 underline-offset-4 hover:text-white hover:underline">
-                See how it works ↓
-              </a>
             </div>
-            <ChatMock />
+            <div className="mt-10 sm:mt-14">
+              <InboxDemo />
+            </div>
           </div>
         </section>
 
-        {/* Channels marquee */}
-        <section id="channels" className="border-y border-ink/10 bg-white py-6" aria-label="Channels">
-          <div className="overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)]">
-            <ul className="flex w-max animate-marquee gap-4">
-              {[...CHANNELS, ...CHANNELS, ...CHANNELS, ...CHANNELS].map((c, i) => (
-                <li
-                  key={i}
-                  aria-hidden={i >= CHANNELS.length}
-                  className="flex items-center gap-2.5 whitespace-nowrap rounded-full border border-ink/10 py-1.5 pl-1.5 pr-5 font-display text-lg font-semibold"
-                >
-                  <ChannelIcon channel={c.key} size={32} />
-                  {c.name}
-                  {c.status === 'soon' ? (
-                    <span className="rounded-full bg-brand-50 px-2 py-0.5 text-[11px] font-semibold text-brand-700">Coming soon</span>
-                  ) : (
-                    <span className="h-2 w-2 rounded-full bg-wa" title="Live" />
-                  )}
-                </li>
+        {/* Stakes */}
+        <section className="on-dark bg-k-purple text-white">
+          <div className={`${WRAP} ${SECTION}`}>
+            <h2 className="k-display m-0 max-w-[20ch] text-[clamp(30px,6.4vw,52px)] leading-[1.02]">
+              Your customers already shop in the chat. Whoever replies first gets the sale.
+            </h2>
+            <dl className="mb-0 mt-10 grid gap-8 sm:grid-cols-3 sm:gap-6 lg:mt-14">
+              {stats.map((s) => (
+                <div key={s.value} className="border-t border-white/25 pt-5">
+                  <dt className="k-display text-[clamp(44px,9vw,72px)] leading-none text-k-hi">{s.value}</dt>
+                  <dd className="m-0 mt-3 text-k-lilac">
+                    {s.body}
+                    <span className="mt-2 block text-xs text-white/70">Source: {s.source}</span>
+                  </dd>
+                </div>
               ))}
-            </ul>
+            </dl>
+          </div>
+        </section>
+
+        {/* Before / after */}
+        <section className={SECTION}>
+          <div className={WRAP}>
+            <h2 className={`${H2} max-w-[18ch]`}>What happens to a DM today, and with Kritly</h2>
+            <div className="mt-10 overflow-hidden rounded-3xl border border-k-line">
+              <div className="hidden grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)_minmax(0,1.3fr)] border-b border-k-line bg-k-paper text-sm font-semibold md:grid">
+                <div className="px-5 py-3.5 text-k-muted">The customer says</div>
+                <div className="px-5 py-3.5 text-k-muted">Today</div>
+                <div className="px-5 py-3.5 text-k-purple">With Kritly</div>
+              </div>
+              <ul className="m-0 list-none p-0">
+                {beforeAfter.map((r) => (
+                  <li
+                    key={r.says}
+                    className="grid gap-3 border-b border-k-line p-5 last:border-b-0 md:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)_minmax(0,1.3fr)] md:gap-0 md:p-0"
+                  >
+                    <div className="md:px-5 md:py-5">
+                      <span className="inline-block rounded-2xl rounded-bl-md bg-k-bubble px-3.5 py-2 font-semibold">
+                        {r.says}
+                        {r.when && <span className="ml-1.5 text-sm font-normal text-k-muted">{r.when}</span>}
+                      </span>
+                    </div>
+                    <div className="text-k-body md:px-5 md:py-5">
+                      <span className="mb-0.5 block text-xs font-semibold uppercase text-k-muted md:hidden">Today</span>
+                      {r.today}
+                    </div>
+                    <div className="rounded-xl bg-k-tint p-3 md:rounded-none md:px-5 md:py-5">
+                      <span className="mb-0.5 block text-xs font-semibold uppercase text-k-purple md:hidden">With Kritly</span>
+                      {r.kritly}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </section>
 
         {/* How it works */}
-        <section id="how" className="bg-white py-24">
-          <div className="container-x">
-            <Reveal className="max-w-2xl">
-              <span className="eyebrow border-brand-100 bg-brand-50 text-brand-700">How it works</span>
-              <h2 className="mt-4 font-display text-4xl font-bold tracking-tight sm:text-5xl">
-                Live in an afternoon. <span className="text-gradient-dark">Selling by tonight.</span>
-              </h2>
-            </Reveal>
-            <ol className="mt-14 grid gap-6 md:grid-cols-3">
+        <section id="how" className={`scroll-mt-16 bg-k-paper ${SECTION}`}>
+          <div className={WRAP}>
+            <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end lg:gap-16">
+              <h2 className={H2}>Set up in an afternoon</h2>
+              <p className="m-0 max-w-[46ch] text-[17px] text-k-body">
+                No developers and no website needed. If you can post a product on Instagram, you can set up Kritly.
+              </p>
+            </div>
+            <ol className="m-0 mt-10 grid list-none gap-4 p-0 md:grid-cols-3">
               {steps.map((s, i) => (
-                <Reveal as="li" key={s.title} delay={i * 120} className="relative rounded-3xl border border-ink/10 bg-white p-7 shadow-[0_1px_0_rgba(11,7,22,0.04)]">
-                  <span className="font-display text-6xl font-bold text-brand-100">0{i + 1}</span>
-                  <s.icon className="mt-4 h-6 w-6 text-brand-700" />
-                  <h3 className="mt-3 font-display text-xl font-semibold">{s.title}</h3>
-                  <p className="mt-2 leading-7 text-ink/70">{s.body}</p>
-                </Reveal>
+                <li key={s.title} className="rounded-3xl border border-k-line bg-white p-6">
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-k-purple text-sm font-bold text-white">
+                      {i + 1}
+                    </span>
+                    <span className="text-sm text-k-muted">{s.time}</span>
+                  </div>
+                  <h3 className="mb-0 mt-5 text-xl font-semibold">{s.title}</h3>
+                  <p className="mb-0 mt-2 text-k-body">{s.body}</p>
+                </li>
               ))}
             </ol>
           </div>
         </section>
 
-        {/* Features bento */}
-        <section id="features" className="bg-[#F7F4FC] py-24">
-          <div className="container-x">
-            <Reveal className="max-w-2xl">
-              <span className="eyebrow border-brand-100 bg-white text-brand-700">Features</span>
-              <h2 className="mt-4 font-display text-4xl font-bold tracking-tight sm:text-5xl">
-                A salesperson that never sleeps, <span className="text-gradient-dark">and a team that stays in control.</span>
-              </h2>
-            </Reveal>
-            <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {features.map((f, i) => (
-                <Reveal
-                  key={f.title}
-                  delay={(i % 3) * 80}
-                  className={`group rounded-3xl border border-ink/10 bg-white p-7 transition hover:-translate-y-1 hover:border-brand-200 hover:shadow-xl hover:shadow-brand-900/5 ${f.span}`}
-                >
-                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-gradient text-white">
-                    <f.icon className="h-5 w-5" />
-                  </span>
-                  <h3 className="mt-5 font-display text-lg font-semibold">{f.title}</h3>
-                  <p className="mt-2 text-[15px] leading-7 text-ink/70">{f.body}</p>
-                </Reveal>
-              ))}
-            </div>
+        {/* Features */}
+        <section id="features" className={`scroll-mt-16 ${SECTION}`}>
+          <div className={WRAP}>
+            <h2 className={`${H2} max-w-[16ch]`}>What Kritly does in your inbox</h2>
+            <div className="mt-10 grid gap-4 md:grid-cols-2">
+              <article className="flex flex-col gap-5 rounded-3xl border border-k-line p-6">
+                <div>
+                  <h3 className="m-0 text-xl font-semibold">Answers in your shop’s voice</h3>
+                  <p className="mb-0 mt-2 text-k-body">
+                    Answers questions, recommends products and handles common issues, using only what you’ve taught it.
+                  </p>
+                </div>
+                <div className="mt-auto rounded-2xl bg-k-paper p-4 text-sm">
+                  <div className="font-semibold">Tone</div>
+                  <div className="mt-2 flex flex-wrap gap-1.5">
+                    <span className="rounded-full bg-k-purple px-3 py-1 font-semibold text-white">Casual</span>
+                    <span className="rounded-full border border-k-line bg-white px-3 py-1 text-k-body">Formal</span>
+                    <span className="rounded-full border border-k-line bg-white px-3 py-1 text-k-body">Pidgin-friendly</span>
+                  </div>
+                  <div className="mt-4 font-semibold">It knows</div>
+                  <ul className="m-0 mt-2 flex list-none flex-col gap-1.5 p-0">
+                    {['Product catalogue', 'Delivery zones and fees', 'Returns policy'].map((x) => (
+                      <li key={x} className="flex justify-between gap-2">
+                        <span>{x}</span>
+                        <span className="font-semibold text-[#14713A]">✓</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
 
-            <Reveal className="mt-10 flex flex-col items-start gap-4 rounded-3xl bg-ink p-7 text-white sm:flex-row sm:items-center">
-              <ShieldCheck className="h-8 w-8 shrink-0 text-sun" />
-              <p className="leading-7 text-white/80">
-                Kritly connects only through official platform APIs. We never sell your data or your customers’ data.{' '}
-                <a href="/privacy" className="font-semibold text-white underline underline-offset-4">
-                  Read our Privacy Policy
-                </a>
-                .
-              </p>
-            </Reveal>
+              <article className="on-dark flex flex-col gap-5 rounded-3xl bg-k-purple p-6 text-white">
+                <div>
+                  <h3 className="m-0 text-xl font-semibold">Checkout inside the chat</h3>
+                  <p className="mb-0 mt-2 text-k-lilac">
+                    Cart, secure payment link and confirmation. The customer never leaves the conversation.
+                  </p>
+                </div>
+                <div className="mt-auto flex flex-wrap gap-2">
+                  {['Paystack', 'Flutterwave', 'Stripe'].map((p) => (
+                    <span key={p} className="rounded-full bg-white px-3 py-1 text-sm font-semibold text-k-purple">
+                      {p}
+                    </span>
+                  ))}
+                </div>
+              </article>
+
+              <article className="flex flex-col gap-5 rounded-3xl border border-k-line p-6">
+                <div>
+                  <h3 className="m-0 text-xl font-semibold">Hands off to a person when it should</h3>
+                  <p className="mb-0 mt-2 text-k-body">Set the rules and hours. Kritly passes the chat to the right person with the whole history.</p>
+                </div>
+                <div className="mt-auto rounded-2xl bg-k-paper p-4 text-sm">
+                  When a customer asks for a <strong>custom order</strong>, send it to <strong className="text-k-warm">Funmi</strong>
+                </div>
+              </article>
+
+              <article className="flex flex-col gap-5 rounded-3xl border border-k-line p-6">
+                <div>
+                  <h3 className="m-0 text-xl font-semibold">One inbox for the whole team</h3>
+                  <p className="mb-0 mt-2 text-k-body">WhatsApp, Instagram and web chat together. Assign chats, add notes and see who’s replying.</p>
+                </div>
+                <div className="mt-auto flex items-center gap-2 rounded-2xl bg-k-paper p-4 text-sm">
+                  <span aria-hidden className="flex h-6 w-6 items-center justify-center rounded-full bg-[#FFE2C2] text-[11px] font-bold text-k-warm">
+                    F
+                  </span>
+                  <span className="text-k-body">Funmi is replying…</span>
+                </div>
+              </article>
+            </div>
           </div>
         </section>
 
-        {/* Team */}
-        <section id="team" className="bg-white py-24">
-          <div className="container-x">
-            <Reveal className="max-w-2xl">
-              <span className="eyebrow border-brand-100 bg-brand-50 text-brand-700">Team</span>
-              <h2 className="mt-4 font-display text-4xl font-bold tracking-tight">Built in Lagos, for merchants who sell in chat.</h2>
-            </Reveal>
-            <div className="mt-10 grid gap-5 sm:grid-cols-2">
-              {founders.map((p, i) => (
-                <Reveal key={p.name} delay={i * 100} className="flex items-center gap-5 rounded-3xl border border-ink/10 p-5">
-                  <Image src={p.imageSrc} alt={p.name} width={72} height={72} className="h-[72px] w-[72px] shrink-0 rounded-full object-cover ring-4 ring-brand-50" />
-                  <div className="flex-1">
-                    <p className="font-display font-semibold">{p.name}</p>
-                    <p className="text-sm text-ink/60">{p.role}</p>
-                  </div>
-                  <a href={p.linkedin} target="_blank" rel="noopener noreferrer" aria-label={`${p.name} on LinkedIn`} className="rounded-full border border-ink/10 p-2.5 text-ink/60 hover:text-brand-700">
-                    <Linkedin className="h-4 w-4" />
-                  </a>
-                </Reveal>
-              ))}
+        {/* Founding merchant offer */}
+        <section id="offer" className="scroll-mt-16 px-4 sm:px-6">
+          <div className="on-dark mx-auto max-w-[1160px] rounded-[28px] bg-k-ink p-6 text-white sm:p-10 lg:p-14">
+            <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-14">
+              <div>
+                <span className="inline-block -rotate-2 rounded-md bg-k-hi px-2.5 py-1 text-sm font-bold text-k-ink">Founding merchants</span>
+                <h2 className="k-display mb-0 mt-5 text-[clamp(30px,6.4vw,52px)] leading-[1.02]">Get in before everyone else</h2>
+                <p className="mb-0 mt-4 text-[17px] text-white/80">
+                  We’re opening Kritly to merchants in small groups so we can set each one up properly. People on the
+                  waitlist go first.
+                </p>
+                <p className="mb-0 mt-3 text-sm text-white/70">Built in Lagos by co-founders Ridwan Meshinoye and Oluwafikunmi Eshilokun.</p>
+                <a
+                  href="#waitlist"
+                  className="mt-6 inline-flex h-12 items-center rounded-xl bg-k-hi px-5 font-semibold text-k-ink no-underline hover:bg-k-hi-hover"
+                >
+                  Claim your early access
+                </a>
+              </div>
+              <ul className="m-0 grid list-none gap-3 p-0 sm:grid-cols-2">
+                {perks.map((p) => (
+                  <li key={p.title} className="rounded-2xl border border-white/15 p-5">
+                    <span className="block font-semibold">{p.title}</span>
+                    <span className="mt-1 block text-sm text-white/75">{p.body}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </section>
 
         {/* FAQ */}
-        <section id="faq" className="bg-[#F7F4FC] py-24">
-          <div className="container-x grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-16">
-            <Reveal className="lg:sticky lg:top-28">
-              <span className="eyebrow border-brand-100 bg-white text-brand-700">FAQ</span>
-              <h2 className="mt-4 font-display text-4xl font-bold tracking-tight">Questions, answered.</h2>
-              <p className="mt-4 max-w-sm leading-7 text-ink/70">
-                What merchants ask us most about getting started with Kritly.
+        <section id="faq" className={`scroll-mt-16 ${SECTION}`}>
+          <div className={`${WRAP} grid gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16`}>
+            <div>
+              <h2 className={H2}>Questions merchants ask us</h2>
+              <p className="mb-0 mt-4 text-k-body">
+                Something else? Email{' '}
+                <a href={`mailto:${COMPANY.email}`} className="font-semibold text-k-purple underline underline-offset-2">
+                  {COMPANY.email}
+                </a>
               </p>
-              <p className="mt-6 text-sm text-ink/60">
-                Something else? Email us at{' '}
-                <span className="font-semibold text-ink">{COMPANY.email}</span>
-              </p>
-            </Reveal>
-            <div className="min-w-0 divide-y divide-ink/10 rounded-3xl border border-ink/10 bg-white">
+            </div>
+            <div className="divide-y divide-k-line border-y border-k-line">
               {faqs.map((f, i) => (
-                <details key={f.q} open={i === 0} className="group p-6 sm:p-7">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display font-semibold">
+                <details key={f.q} open={i === 0} className="py-5">
+                  <summary className="flex min-h-[44px] items-center justify-between gap-4 text-[17px] font-semibold">
                     {f.q}
-                    <span className="text-xl text-brand-700 transition group-open:rotate-45">+</span>
+                    <span className="k-faq-plus flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-k-paper text-xl leading-none text-k-purple" aria-hidden>
+                      +
+                    </span>
                   </summary>
-                  <p className="mt-3 leading-7 text-ink/70">{f.a}</p>
+                  <p className="mb-0 mt-2 max-w-[62ch] text-k-body">{f.a}</p>
                 </details>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Closing CTA */}
-        <section className="relative overflow-hidden bg-ink py-24 text-white">
-          <div className="absolute inset-0 bg-brand-gradient opacity-40" aria-hidden />
-          <div className="grid-lines absolute inset-0" aria-hidden />
-          <div className="container-x relative text-center">
-            <h2 className="mx-auto max-w-3xl font-display text-4xl font-bold tracking-tight sm:text-6xl">
-              Turn every message into a sale.
+        {/* Final CTA */}
+        <section id="waitlist" className="scroll-mt-16 bg-k-hi">
+          <div className={`${WRAP} ${SECTION}`}>
+            <h2 className="k-display m-0 max-w-[14ch] text-[clamp(36px,8vw,80px)] leading-[0.98] text-k-ink">
+              Stop losing sales to slow replies.
             </h2>
-            <p className="mx-auto mt-5 max-w-xl text-lg text-white/75">
-              Kritly is opening to merchants soon. Join the waitlist for early access.
-            </p>
-            <div className="mx-auto mt-8 max-w-2xl text-left">
-              <WaitlistForm id="cta" />
+            <p className="mb-0 mt-4 text-lg text-k-ink/80">Join the waitlist. Founding merchants get in first.</p>
+            <div className="mt-6">
+              <EarlyAccessForm id="final-email" tone="yellow" />
+              <p className="mb-0 mt-3 text-sm text-k-ink/75">
+                Free to join. Official platform APIs only. We never sell your data.{' '}
+                <Link href="/privacy" className="font-semibold text-k-ink underline underline-offset-2">
+                  Privacy Policy
+                </Link>
+              </p>
             </div>
           </div>
         </section>
       </main>
-      <SiteFooter />
-    </>
+
+      {/* Footer: company details must match Meta Business Info exactly. */}
+      <footer className="on-dark bg-k-ink text-white">
+        <div className={`${WRAP} py-12 sm:py-14`}>
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.4fr]">
+            <div>
+              <Logo dark />
+              <p className="mb-0 mt-3 max-w-[32ch] text-sm text-white/70">The AI agent that sells and supports your customers in every chat.</p>
+            </div>
+            <nav aria-label="Product" className="flex flex-col gap-2 text-sm">
+              <span className="font-semibold">Product</span>
+              {[
+                ['#how', 'How it works'],
+                ['#features', 'Features'],
+                ['#offer', 'Early access'],
+                ['#faq', 'FAQ'],
+              ].map(([href, label]) => (
+                <a key={href} href={href} className="text-white/70 no-underline hover:text-white">
+                  {label}
+                </a>
+              ))}
+            </nav>
+            <nav aria-label="Legal" className="flex flex-col gap-2 text-sm">
+              <span className="font-semibold">Legal</span>
+              <Link href="/privacy" className="text-white/70 no-underline hover:text-white">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="text-white/70 no-underline hover:text-white">
+                Terms of Service
+              </Link>
+              <Link href="/data-deletion" className="text-white/70 no-underline hover:text-white">
+                Data Deletion
+              </Link>
+            </nav>
+            <address className="flex flex-col gap-2 text-sm not-italic">
+              <span className="font-semibold">{COMPANY.legalName}</span>
+              <span className="text-white/70">{COMPANY.address}</span>
+              <a href={COMPANY.phoneHref} className="text-white/70 no-underline hover:text-white">
+                {COMPANY.phone}
+              </a>
+              <a href={`mailto:${COMPANY.email}`} className="text-white/70 no-underline hover:text-white">
+                {COMPANY.email}
+              </a>
+            </address>
+          </div>
+          <div className="mt-10 flex flex-col gap-2 border-t border-white/15 pt-5 text-xs text-white/60 sm:flex-row sm:justify-between">
+            <span>© 2026 {COMPANY.legalName} All rights reserved.</span>
+            <span>Stats: Public First for Meta (2026); GSMA; Aurora Inbox (2026).</span>
+          </div>
+        </div>
+      </footer>
+    </div>
   )
 }
