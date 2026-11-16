@@ -87,7 +87,7 @@ export function WaitlistForm({ id = 'waitlist-form' }: { id?: string }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <button type="submit" className="btn-primary h-12 py-0 sm:col-span-2 sm:justify-self-start" disabled={status === 'loading'}>
+        <button type="submit" className="btn-primary h-12 py-0 sm:col-span-2 sm:justify-self-end" disabled={status === 'loading'}>
           {status === 'loading' ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" /> Joining…
