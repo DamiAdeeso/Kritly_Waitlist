@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { EarlyAccessForm } from '@/components/home/EarlyAccessForm'
 import { InboxDemo } from '@/components/home/InboxDemo'
+import { ThemeToggle } from '@/components/home/ThemeToggle'
 import { COMPANY } from '@/lib/site'
 
 /*
@@ -121,12 +122,12 @@ export default function HomePage() {
   return (
     <div className="k-home min-h-screen overflow-x-hidden bg-k-bg font-kbody text-[16px] leading-[1.6] text-k-ink">
       {/* Announcement */}
-      <a href="#offer" className="block bg-k-hi px-4 py-2.5 text-center text-sm font-medium text-k-ink no-underline hover:underline">
+      <a href="#offer" className="block bg-k-hi px-4 py-2.5 text-center text-sm font-medium text-k-onhi no-underline hover:underline">
         Founding merchants get early access and founding-merchant pricing <span aria-hidden>→</span>
       </a>
 
       {/* Nav */}
-      <header className="sticky top-0 z-20 border-b border-k-line bg-white/90 backdrop-blur">
+      <header className="sticky top-0 z-20 border-b border-k-line bg-k-bg/90 backdrop-blur">
         <nav aria-label="Main" className={`${WRAP} flex h-16 items-center justify-between gap-4`}>
           <a href="#top" className="no-underline" aria-label="Kritly home">
             <Logo />
@@ -143,12 +144,15 @@ export default function HomePage() {
               </a>
             ))}
           </div>
-          <a
-            href="#waitlist"
-            className="inline-flex h-10 items-center rounded-xl bg-k-purple px-4 text-sm font-semibold text-white no-underline hover:bg-k-purple-hover"
-          >
-            Get early access
-          </a>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <a
+              href="#waitlist"
+              className="inline-flex h-10 items-center rounded-xl bg-k-purple px-4 text-sm font-semibold text-white no-underline hover:bg-k-purple-hover"
+            >
+              Get early access
+            </a>
+          </div>
         </nav>
       </header>
 
@@ -156,7 +160,7 @@ export default function HomePage() {
         {/* Hero */}
         <section id="top" className="pb-16 pt-12 sm:pb-20 sm:pt-16 lg:pt-20">
           <div className={WRAP}>
-            <p className="m-0 text-sm font-semibold text-k-purple">An AI sales assistant for people who sell in their DMs</p>
+            <p className="m-0 text-sm font-semibold text-k-link">An AI sales assistant for people who sell in their DMs</p>
             <h1 className="k-display mb-0 mt-4 max-w-[13ch] text-[clamp(40px,10vw,96px)] leading-[0.98] text-k-ink">
               Your DMs sell, <span className="k-mark">even while you sleep.</span>
             </h1>
@@ -170,7 +174,7 @@ export default function HomePage() {
                 <EarlyAccessForm id="hero-email" />
                 <p className="mb-0 mt-3 text-sm text-k-muted">
                   Free to join, no card needed. We’ll only email you about early access.{' '}
-                  <Link href="/privacy" className="text-k-purple underline underline-offset-2">
+                  <Link href="/privacy" className="text-k-link underline underline-offset-2">
                     Privacy
                   </Link>
                 </p>
@@ -191,7 +195,7 @@ export default function HomePage() {
             <dl className="mb-0 mt-10 grid gap-8 sm:grid-cols-3 sm:gap-6 lg:mt-14">
               {stats.map((s) => (
                 <div key={s.value} className="border-t border-white/25 pt-5">
-                  <dt className="k-display text-[clamp(44px,9vw,72px)] leading-none text-k-hi">{s.value}</dt>
+                  <dt className="k-display whitespace-nowrap text-[clamp(40px,10vw,56px)] leading-none text-k-hi sm:text-[clamp(36px,5.4vw,72px)]">{s.value}</dt>
                   <dd className="m-0 mt-3 text-k-lilac">
                     {s.body}
                     <span className="mt-2 block text-xs text-white/70">Source: {s.source}</span>
@@ -210,7 +214,7 @@ export default function HomePage() {
               <div className="hidden grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)_minmax(0,1.3fr)] border-b border-k-line bg-k-paper text-sm font-semibold md:grid">
                 <div className="px-5 py-3.5 text-k-muted">The customer says</div>
                 <div className="px-5 py-3.5 text-k-muted">Today</div>
-                <div className="px-5 py-3.5 text-k-purple">With Kritly</div>
+                <div className="px-5 py-3.5 text-k-link">With Kritly</div>
               </div>
               <ul className="m-0 list-none p-0">
                 {beforeAfter.map((r) => (
@@ -229,7 +233,7 @@ export default function HomePage() {
                       {r.today}
                     </div>
                     <div className="rounded-xl bg-k-tint p-3 md:rounded-none md:px-5 md:py-5">
-                      <span className="mb-0.5 block text-xs font-semibold uppercase text-k-purple md:hidden">With Kritly</span>
+                      <span className="mb-0.5 block text-xs font-semibold uppercase text-k-link md:hidden">With Kritly</span>
                       {r.kritly}
                     </div>
                   </li>
@@ -250,7 +254,7 @@ export default function HomePage() {
             </div>
             <ol className="m-0 mt-10 grid list-none gap-4 p-0 md:grid-cols-3">
               {steps.map((s, i) => (
-                <li key={s.title} className="rounded-3xl border border-k-line bg-white p-6">
+                <li key={s.title} className="rounded-3xl border border-k-line bg-k-surface p-6">
                   <div className="flex items-center justify-between gap-3">
                     <span className="flex h-9 w-9 items-center justify-center rounded-full bg-k-purple text-sm font-bold text-white">
                       {i + 1}
@@ -281,15 +285,15 @@ export default function HomePage() {
                   <div className="font-semibold">Tone</div>
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     <span className="rounded-full bg-k-purple px-3 py-1 font-semibold text-white">Casual</span>
-                    <span className="rounded-full border border-k-line bg-white px-3 py-1 text-k-body">Formal</span>
-                    <span className="rounded-full border border-k-line bg-white px-3 py-1 text-k-body">Pidgin-friendly</span>
+                    <span className="rounded-full border border-k-line bg-k-surface px-3 py-1 text-k-body">Formal</span>
+                    <span className="rounded-full border border-k-line bg-k-surface px-3 py-1 text-k-body">Pidgin-friendly</span>
                   </div>
                   <div className="mt-4 font-semibold">It knows</div>
                   <ul className="m-0 mt-2 flex list-none flex-col gap-1.5 p-0">
                     {['Product catalogue', 'Delivery zones and fees', 'Returns policy'].map((x) => (
                       <li key={x} className="flex justify-between gap-2">
                         <span>{x}</span>
-                        <span className="font-semibold text-[#14713A]">✓</span>
+                        <span className="font-semibold text-k-ok">✓</span>
                       </li>
                     ))}
                   </ul>
@@ -328,7 +332,7 @@ export default function HomePage() {
                   <p className="mb-0 mt-2 text-k-body">WhatsApp, Instagram and web chat together. Assign chats, add notes and see who’s replying.</p>
                 </div>
                 <div className="mt-auto flex items-center gap-2 rounded-2xl bg-k-paper p-4 text-sm">
-                  <span aria-hidden className="flex h-6 w-6 items-center justify-center rounded-full bg-[#FFE2C2] text-[11px] font-bold text-k-warm">
+                  <span aria-hidden className="flex h-6 w-6 items-center justify-center rounded-full bg-k-warmbg text-[11px] font-bold text-k-warm">
                     F
                   </span>
                   <span className="text-k-body">Funmi is replying…</span>
@@ -340,10 +344,10 @@ export default function HomePage() {
 
         {/* Founding merchant offer */}
         <section id="offer" className="scroll-mt-16 px-4 sm:px-6">
-          <div className="on-dark mx-auto max-w-[1160px] rounded-[28px] bg-k-ink p-6 text-white sm:p-10 lg:p-14">
+          <div className="on-dark mx-auto max-w-[1160px] rounded-[28px] bg-k-night p-6 text-white sm:p-10 lg:p-14">
             <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-14">
               <div>
-                <span className="inline-block -rotate-2 rounded-md bg-k-hi px-2.5 py-1 text-sm font-bold text-k-ink">Founding merchants</span>
+                <span className="inline-block -rotate-2 rounded-md bg-k-hi px-2.5 py-1 text-sm font-bold text-k-onhi">Founding merchants</span>
                 <h2 className="k-display mb-0 mt-5 text-[clamp(30px,6.4vw,52px)] leading-[1.02]">Get in before everyone else</h2>
                 <p className="mb-0 mt-4 text-[17px] text-white/80">
                   We’re opening Kritly to merchants in small groups so we can set each one up properly. People on the
@@ -352,7 +356,7 @@ export default function HomePage() {
                 <p className="mb-0 mt-3 text-sm text-white/70">Built in Lagos by co-founders Ridwan Meshinoye and Oluwafikunmi Eshilokun.</p>
                 <a
                   href="#waitlist"
-                  className="mt-6 inline-flex h-12 items-center rounded-xl bg-k-hi px-5 font-semibold text-k-ink no-underline hover:bg-k-hi-hover"
+                  className="mt-6 inline-flex h-12 items-center rounded-xl bg-k-hi px-5 font-semibold text-k-onhi no-underline hover:bg-k-hi-hover"
                 >
                   Claim your early access
                 </a>
@@ -376,7 +380,7 @@ export default function HomePage() {
               <h2 className={H2}>Questions merchants ask us</h2>
               <p className="mb-0 mt-4 text-k-body">
                 Something else? Email{' '}
-                <a href={`mailto:${COMPANY.email}`} className="font-semibold text-k-purple underline underline-offset-2">
+                <a href={`mailto:${COMPANY.email}`} className="font-semibold text-k-link underline underline-offset-2">
                   {COMPANY.email}
                 </a>
               </p>
@@ -386,7 +390,7 @@ export default function HomePage() {
                 <details key={f.q} open={i === 0} className="py-5">
                   <summary className="flex min-h-[44px] items-center justify-between gap-4 text-[17px] font-semibold">
                     {f.q}
-                    <span className="k-faq-plus flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-k-paper text-xl leading-none text-k-purple" aria-hidden>
+                    <span className="k-faq-plus flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-k-paper text-xl leading-none text-k-link" aria-hidden>
                       +
                     </span>
                   </summary>
@@ -400,15 +404,15 @@ export default function HomePage() {
         {/* Final CTA */}
         <section id="waitlist" className="scroll-mt-16 bg-k-hi">
           <div className={`${WRAP} ${SECTION}`}>
-            <h2 className="k-display m-0 max-w-[14ch] text-[clamp(36px,8vw,80px)] leading-[0.98] text-k-ink">
+            <h2 className="k-display m-0 max-w-[14ch] text-[clamp(36px,8vw,80px)] leading-[0.98] text-k-onhi">
               Stop losing sales to slow replies.
             </h2>
-            <p className="mb-0 mt-4 text-lg text-k-ink/80">Join the waitlist. Founding merchants get in first.</p>
+            <p className="mb-0 mt-4 text-lg text-k-onhi/80">Join the waitlist. Founding merchants get in first.</p>
             <div className="mt-6">
               <EarlyAccessForm id="final-email" tone="yellow" />
-              <p className="mb-0 mt-3 text-sm text-k-ink/75">
+              <p className="mb-0 mt-3 text-sm text-k-onhi/75">
                 Free to join. Official platform APIs only. We never sell your data.{' '}
-                <Link href="/privacy" className="font-semibold text-k-ink underline underline-offset-2">
+                <Link href="/privacy" className="font-semibold text-k-onhi underline underline-offset-2">
                   Privacy Policy
                 </Link>
               </p>
@@ -418,7 +422,7 @@ export default function HomePage() {
       </main>
 
       {/* Footer: company details must match Meta Business Info exactly. */}
-      <footer className="on-dark bg-k-ink text-white">
+      <footer className="on-dark bg-k-night text-white">
         <div className={`${WRAP} py-12 sm:py-14`}>
           <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.4fr]">
             <div>

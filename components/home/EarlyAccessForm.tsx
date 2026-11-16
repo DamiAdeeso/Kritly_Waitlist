@@ -40,7 +40,7 @@ export function EarlyAccessForm({ id, tone = 'light' }: { id: string; tone?: 'li
 
   if (status === 'joined') {
     return (
-      <div role="status" className="k-pop flex w-full max-w-[520px] items-start gap-3 rounded-2xl border border-k-line bg-white p-4 text-left text-k-ink">
+      <div role="status" className="k-pop flex w-full max-w-[520px] items-start gap-3 rounded-2xl border border-k-line bg-k-surface p-4 text-left text-k-ink">
         <span aria-hidden className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-k-purple font-bold text-white">
           ✓
         </span>
@@ -54,7 +54,7 @@ export function EarlyAccessForm({ id, tone = 'light' }: { id: string; tone?: 'li
 
   const button =
     tone === 'yellow'
-      ? 'bg-k-ink text-white hover:bg-black'
+      ? 'bg-k-onhi text-white hover:bg-black'
       : 'bg-k-purple text-white hover:bg-k-purple-hover'
 
   return (
@@ -72,7 +72,7 @@ export function EarlyAccessForm({ id, tone = 'light' }: { id: string; tone?: 'li
           placeholder="you@yourbusiness.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="h-12 w-full min-w-0 rounded-xl border border-k-line bg-white px-4 text-base text-k-ink outline-none transition focus:border-k-purple sm:flex-1"
+          className="h-12 w-full min-w-0 rounded-xl border border-k-line bg-k-surface px-4 text-base text-k-ink outline-none transition focus:border-k-link sm:flex-1"
         />
         <button
           type="submit"

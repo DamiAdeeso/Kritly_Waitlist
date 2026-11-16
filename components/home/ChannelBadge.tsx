@@ -30,7 +30,7 @@ export function AvatarBadge({ channel }: { channel: BadgeChannel }) {
     <span
       role="img"
       aria-label={META[channel].label}
-      className={`absolute -bottom-[3px] -right-[3px] flex h-4 w-4 items-center justify-center rounded-full border-2 border-white ${META[channel].bg}`}
+      className={`absolute -bottom-[3px] -right-[3px] flex h-4 w-4 items-center justify-center rounded-full border-2 border-k-surface ${META[channel].bg}`}
     >
       <Glyph channel={channel} size={8} />
     </span>
@@ -41,7 +41,7 @@ export function AvatarBadge({ channel }: { channel: BadgeChannel }) {
 export function ChannelChip({ channel }: { channel: BadgeChannel }) {
   const label = channel === 'web' ? 'Web' : META[channel].label
   return (
-    <span className="inline-flex items-center gap-[5px] rounded-full border border-k-line bg-white py-1 pl-[5px] pr-[9px] text-xs font-semibold text-k-body">
+    <span className="inline-flex items-center gap-[5px] rounded-full border border-k-line bg-k-surface py-1 pl-[5px] pr-[9px] text-xs font-semibold text-k-body">
       <span aria-hidden className={`flex h-3.5 w-3.5 items-center justify-center rounded-full ${META[channel].bg}`}>
         <Glyph channel={channel} size={8} />
       </span>
@@ -52,7 +52,7 @@ export function ChannelChip({ channel }: { channel: BadgeChannel }) {
 
 export function Avatar({ initials, channel }: { initials: string; channel: BadgeChannel }) {
   return (
-    <div className="relative flex h-[34px] w-[34px] flex-none items-center justify-center rounded-full bg-k-tint text-xs font-bold text-k-purple">
+    <div className="relative flex h-[34px] w-[34px] flex-none items-center justify-center rounded-full bg-k-tint text-xs font-bold text-k-link">
       {initials}
       <AvatarBadge channel={channel} />
     </div>

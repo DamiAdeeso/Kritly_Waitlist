@@ -65,8 +65,14 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${poppins.variable} ${archivo.variable} ${instrument.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${poppins.variable} ${archivo.variable} ${instrument.variable}`}>
       <body className="font-sans">
+        {/* Apply a saved light/dark choice before first paint (homepage theme toggle). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem('kritly-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

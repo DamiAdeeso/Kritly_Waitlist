@@ -87,6 +87,71 @@ body {
   }
 }
 
+/* Landing tokens. Light by default; dark follows the system unless the visitor picked a theme. */
+:root {
+  --k-bg: 255 255 255;
+  --k-surface: 255 255 255;
+  --k-paper: 246 243 251;
+  --k-tint: 239 232 251;
+  --k-ink: 23 11 46;
+  --k-body: 74 64 96;
+  --k-muted: 107 98 130;
+  --k-line: 230 224 240;
+  --k-purple: 64 0 140;
+  --k-purple-hover: 84 16 176;
+  --k-link: 64 0 140;
+  --k-lilac: 217 204 245;
+  --k-hi: 255 195 13;
+  --k-hi-hover: 255 210 77;
+  --k-onhi: 23 11 46;
+  --k-night: 23 11 46;
+  --k-warm: 163 74 0;
+  --k-warmbg: 255 241 226;
+  --k-ok: 20 113 58;
+  --k-okbg: 230 246 236;
+  --k-bubble: 241 238 246;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --k-bg: 14 10 24;
+    --k-surface: 22 17 36;
+    --k-paper: 19 14 32;
+    --k-tint: 37 27 66;
+    --k-ink: 243 239 250;
+    --k-body: 197 188 216;
+    --k-muted: 155 145 178;
+    --k-line: 46 37 69;
+    --k-purple: 92 24 196;
+    --k-purple-hover: 112 44 220;
+    --k-link: 205 180 255;
+    --k-night: 27 20 48;
+    --k-warm: 255 184 107;
+    --k-warmbg: 58 36 16;
+    --k-ok: 95 211 138;
+    --k-okbg: 18 50 34;
+    --k-bubble: 34 27 52;
+  }
+}
+:root[data-theme='dark'] {
+  --k-bg: 14 10 24;
+  --k-surface: 22 17 36;
+  --k-paper: 19 14 32;
+  --k-tint: 37 27 66;
+  --k-ink: 243 239 250;
+  --k-body: 197 188 216;
+  --k-muted: 155 145 178;
+  --k-line: 46 37 69;
+  --k-purple: 92 24 196;
+  --k-purple-hover: 112 44 220;
+  --k-link: 205 180 255;
+  --k-night: 27 20 48;
+  --k-warm: 255 184 107;
+  --k-warmbg: 58 36 16;
+  --k-ok: 95 211 138;
+  --k-okbg: 18 50 34;
+  --k-bubble: 34 27 52;
+}
+
 /* ── Landing page ───────────────────────────────────────────────────── */
 .k-display {
   font-family: var(--font-archivo), system-ui, sans-serif;
@@ -119,7 +184,7 @@ body {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #6b6282;
+  background: rgb(var(--k-muted));
   animation: k-blink 1.2s infinite;
 }
 .k-dot:nth-child(2) {
@@ -152,10 +217,10 @@ body {
   transition: transform 0.2s ease;
 }
 .k-home input::placeholder {
-  color: #6b6282;
+  color: rgb(var(--k-muted));
 }
 .k-home :is(input, a, button, summary):focus-visible {
-  outline: 2px solid #40008c;
+  outline: 2px solid rgb(var(--k-link));
   outline-offset: 3px;
 }
 .k-home .on-dark :is(input, a, button, summary):focus-visible {
