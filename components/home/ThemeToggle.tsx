@@ -13,7 +13,7 @@ function currentTheme(): 'light' | 'dark' {
 }
 
 /**
- * Light/dark switch. Follows the system until the visitor picks one; the pick is
+ * Light/dark switch for the footer (always on a dark background). Follows the system until the visitor picks one; the pick is
  * remembered in this browser only. The pre-paint script in layout.tsx applies it.
  */
 export function ThemeToggle() {
@@ -39,16 +39,17 @@ export function ThemeToggle() {
   }
 
   const dark = theme === 'dark'
+  const label = dark ? 'Light mode' : 'Dark mode'
   return (
     <button
       type="button"
       onClick={toggle}
       aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
-      title={dark ? 'Light mode' : 'Dark mode'}
-      className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-k-line text-k-body transition-colors hover:text-k-ink"
+      className="inline-flex h-10 items-center gap-2 rounded-xl border border-white/20 px-3.5 text-sm font-medium text-white/80 transition-colors hover:border-white/40 hover:text-white"
     >
-      {/* Render nothing until mounted so server and client markup match. */}
-      {theme && (dark ? <Sun className="h-[18px] w-[18px]" /> : <Moon className="h-[18px] w-[18px]" />)}
+      {/* Icon and label render after mount so server and client markup match. */}
+      {theme && (dark ? <Sun className="h-4 w-4" aria-hidden /> : <Moon className="h-4 w-4" aria-hidden />)}
+      <span className="min-w-[5.5rem] text-left">{theme ? label : ''}</span>
     </button>
   )
 }

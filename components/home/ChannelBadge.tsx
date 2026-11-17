@@ -58,3 +58,27 @@ export function Avatar({ initials, channel }: { initials: string; channel: Badge
     </div>
   )
 }
+
+/** Hero channel strip: live channels as icons, the rest as a quiet "soon" note. */
+export function ChannelRow() {
+  const live: { channel: BadgeChannel; label: string }[] = [
+    { channel: 'whatsapp', label: 'WhatsApp' },
+    { channel: 'instagram', label: 'Instagram' },
+    { channel: 'web', label: 'Web chat' },
+  ]
+  return (
+    <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+      <ul className="m-0 flex list-none flex-wrap items-center gap-x-4 gap-y-2 p-0" aria-label="Works on">
+        {live.map((c) => (
+          <li key={c.channel} className="flex items-center gap-2 font-semibold text-k-ink">
+            <span aria-hidden className={`flex h-6 w-6 items-center justify-center rounded-full ${META[c.channel].bg}`}>
+              <Glyph channel={c.channel} size={13} />
+            </span>
+            {c.label}
+          </li>
+        ))}
+      </ul>
+      <span className="text-k-muted">Messenger and TikTok soon</span>
+    </div>
+  )
+}

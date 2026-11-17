@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { EarlyAccessForm } from '@/components/home/EarlyAccessForm'
 import { InboxDemo } from '@/components/home/InboxDemo'
 import { ThemeToggle } from '@/components/home/ThemeToggle'
+import { PaymentLogos } from '@/components/home/PaymentLogos'
+import { CountUp } from '@/components/home/CountUp'
+import { ChannelRow } from '@/components/home/ChannelBadge'
 import { COMPANY } from '@/lib/site'
 
 /*
@@ -42,7 +45,7 @@ const beforeAfter = [
   {
     says: '“Send account details”',
     today: 'Screenshots, checking your bank app, chasing “I’ve paid.”',
-    kritly: 'A secure Paystack, Flutterwave or Stripe link, confirmed right in the chat.',
+    kritly: 'A secure Stripe, Paystack or Flutterwave link, from customers anywhere in the world, confirmed right in the chat.',
   },
   {
     says: '“Where’s my order?”',
@@ -81,7 +84,7 @@ const steps = [
 
 const perks = [
   { title: 'First access', body: 'Before public launch.' },
-  { title: 'Founding-merchant pricing', body: '[OFFER — e.g. locked-in rate]' },
+  { title: 'Founding-merchant pricing', body: 'Special pricing for our first merchants.' },
   { title: 'Set up with the founders', body: 'We help you teach Kritly your shop.' },
   { title: 'A say in what we build', body: 'A direct line to the team.' },
 ]
@@ -96,6 +99,10 @@ const faqs = [
     a: 'No. Kritly works inside your WhatsApp and Instagram DMs. If you do have a website, you can add our chat widget too.',
   },
   {
+    q: 'How do customers pay?',
+    a: 'Kritly sends a secure checkout link from Stripe, Paystack or Flutterwave inside the chat, so you can take payments from customers in any part of the world. The order is confirmed once the payment lands.',
+  },
+  {
     q: 'Which channels does it work on?',
     a: 'WhatsApp, Instagram and web chat today. Facebook Messenger and TikTok are coming soon.',
   },
@@ -105,7 +112,7 @@ const faqs = [
   },
   {
     q: 'When can I start, and what will it cost?',
-    a: 'We’re opening to merchants soon, waitlist first. Joining is free, and founding merchants get [EARLY-ACCESS PRICING].',
+    a: 'We’re opening to merchants soon, waitlist first. Joining is free, and founding merchants get special early-access pricing.',
   },
 ]
 
@@ -144,15 +151,12 @@ export default function HomePage() {
               </a>
             ))}
           </div>
-          <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <a
-              href="#waitlist"
-              className="inline-flex h-10 items-center rounded-xl bg-k-purple px-4 text-sm font-semibold text-white no-underline hover:bg-k-purple-hover"
-            >
-              Get early access
-            </a>
-          </div>
+          <a
+            href="#waitlist"
+            className="inline-flex h-10 items-center rounded-xl bg-k-purple px-4 text-sm font-semibold text-white no-underline hover:bg-k-purple-hover"
+          >
+            Get early access
+          </a>
         </nav>
       </header>
 
@@ -160,20 +164,22 @@ export default function HomePage() {
         {/* Hero */}
         <section id="top" className="pb-16 pt-12 sm:pb-20 sm:pt-16 lg:pt-20">
           <div className={WRAP}>
-            <p className="m-0 text-sm font-semibold text-k-link">An AI sales assistant for people who sell in their DMs</p>
+            <p className="m-0 text-sm font-semibold text-k-link">For people who sell in their DMs</p>
             <h1 className="k-display mb-0 mt-4 max-w-[13ch] text-[clamp(40px,10vw,96px)] leading-[0.98] text-k-ink">
               Your DMs sell, <span className="k-mark">even while you sleep.</span>
             </h1>
             <div className="mt-6 grid gap-8 lg:mt-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-end lg:gap-16">
-              <p className="m-0 max-w-[58ch] text-[17px] text-k-body sm:text-lg">
-                Kritly answers every “How much?” in seconds, takes the order, collects payment with a secure link, and
-                brings you in when a person is needed. It works on WhatsApp, Instagram and your website. Messenger and
-                TikTok are coming soon.
-              </p>
+              <div>
+                <p className="m-0 max-w-[40ch] text-lg text-k-body sm:text-xl">
+                  Kritly answers your customers in seconds, takes the order and payment, and calls you in only when a
+                  person is needed.
+                </p>
+                <ChannelRow />
+              </div>
               <div>
                 <EarlyAccessForm id="hero-email" />
                 <p className="mb-0 mt-3 text-sm text-k-muted">
-                  Free to join, no card needed. We’ll only email you about early access.{' '}
+                  Free to join. No card needed.{' '}
                   <Link href="/privacy" className="text-k-link underline underline-offset-2">
                     Privacy
                   </Link>
@@ -195,7 +201,9 @@ export default function HomePage() {
             <dl className="mb-0 mt-10 grid gap-8 sm:grid-cols-3 sm:gap-6 lg:mt-14">
               {stats.map((s) => (
                 <div key={s.value} className="border-t border-white/25 pt-5">
-                  <dt className="k-display whitespace-nowrap text-[clamp(40px,10vw,56px)] leading-none text-k-hi sm:text-[clamp(36px,5.4vw,72px)]">{s.value}</dt>
+                  <dt className="k-display whitespace-nowrap text-[clamp(40px,10vw,56px)] leading-none text-k-hi sm:text-[clamp(36px,5.4vw,72px)]">
+                    <CountUp value={s.value} />
+                  </dt>
                   <dd className="m-0 mt-3 text-k-lilac">
                     {s.body}
                     <span className="mt-2 block text-xs text-white/70">Source: {s.source}</span>
@@ -304,15 +312,12 @@ export default function HomePage() {
                 <div>
                   <h3 className="m-0 text-xl font-semibold">Checkout inside the chat</h3>
                   <p className="mb-0 mt-2 text-k-lilac">
-                    Cart, secure payment link and confirmation. The customer never leaves the conversation.
+                    Cart, secure payment link and confirmation, without leaving the conversation. Accept payments from
+                    customers in any part of the world with Stripe, Paystack or Flutterwave.
                   </p>
                 </div>
-                <div className="mt-auto flex flex-wrap gap-2">
-                  {['Paystack', 'Flutterwave', 'Stripe'].map((p) => (
-                    <span key={p} className="rounded-full bg-white px-3 py-1 text-sm font-semibold text-k-purple">
-                      {p}
-                    </span>
-                  ))}
+                <div className="mt-auto">
+                  <PaymentLogos />
                 </div>
               </article>
 
@@ -465,9 +470,9 @@ export default function HomePage() {
               </a>
             </address>
           </div>
-          <div className="mt-10 flex flex-col gap-2 border-t border-white/15 pt-5 text-xs text-white/60 sm:flex-row sm:justify-between">
-            <span>© 2026 {COMPANY.legalName} All rights reserved.</span>
-            <span>Stats: Public First for Meta (2026); GSMA; Aurora Inbox (2026).</span>
+          <div className="mt-10 flex flex-col-reverse gap-4 border-t border-white/15 pt-5 sm:flex-row sm:items-center sm:justify-between">
+            <span className="text-xs text-white/60">© 2026 {COMPANY.legalName} All rights reserved.</span>
+            <ThemeToggle />
           </div>
         </div>
       </footer>
